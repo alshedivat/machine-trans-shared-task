@@ -9,7 +9,7 @@ class AlignmentModel {
   }
 
   double get_probabilty(int distance) {
-    return pow(alpha_, fabs(distance));
+    return pow(alpha_, abs(distance));
   }
 
  private:
