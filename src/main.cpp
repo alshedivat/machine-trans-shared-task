@@ -60,7 +60,7 @@ int main() {
             for (size_t i = 0; i < french_phrase.size(); ++i) {
                 cout << english_phrase[i] << " ";
             }
-            cout << "||| Converted to: "
+            cout << "||| Converted to: ";
             cout << english_converter.ToSentence(english_phrase) << endl;
         }
         return 0;
