@@ -46,9 +46,15 @@ int main() {
         AlignmentModel alignment_model;
         PhraseTable phrase_table = load_phrase_table(PHRASE_TABLE_PATH);
         Decoder decoder(language_model, alignment_model, phrase_table);
+        cout << "Started translating" << endl;
         string sentence;
         while (getline(cin, sentence)) {
             Phrase french_phrase = french_converter.ToIndex(sentence);
+            cout << "Readed: " << sentence << "||| Converted to: ";
+            for (size_t i = 0; i < french_phrase.size(); ++i) {
+                cout << french_phrase[i] << " ";
+            }
+            cout << endl;
             Phrase english_phrase = decoder.decode(french_phrase);
             cout << english_converter.ToSentence(english_phrase) << endl;
         }
