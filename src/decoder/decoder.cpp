@@ -32,15 +32,12 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
                phrase_end <= original_sentence.size();
                ++phrase_end) {
 
-            size_t index = phrase_begin;
-            while ((index < phrase_end) &&
-                   (current.used_words[index] == false)) {
-              ++index;
-            }
-
+            int true_quantity = std::accumulate(current.used_words.begin() + phrase_begin,
+                                                current.used_words.begin() + phrase_end,
+                                                0);
             Phrase phrase(original_sentence.begin() + phrase_begin,
                           original_sentence.begin() + phrase_end);
-            if ((index == phrase_end) && phraseInPhraseTable(phrase)) {
+            if ((true_quantity == 0) && phraseInPhraseTable(phrase)) {
               Hypothesis new_hypothesis = current;
               for (size_t index = phrase_begin; index < phrase_end; ++index) {
                 new_hypothesis.used_words[index] = true;
