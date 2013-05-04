@@ -2,7 +2,7 @@
 #define LANGUAGEMODEL_H
 
 #include "../phrasetable/phrasetable.h"
-
+#include <stdexcept>
 #include <unordered_map>
 
 class NgramLanguageModel
@@ -12,7 +12,7 @@ public:
 	typedef std::unordered_map< Phrase, double > Phrase2Stat;
 
 	template< class T >
-	NgramLanguageModel(T&& map, T&& context, int N, double alpha, double nu) 
+	NgramLanguageModel(T&& map, T&& context, int N, double alpha, double nu)
 		: seenPhrases_(std::forward< T >(map))
 		, seenContext_(std::forward< T >(context))
 		, N_(N)

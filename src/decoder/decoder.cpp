@@ -1,7 +1,9 @@
 #include "decoder.h"
+#include <algorithm>
 #include <cfloat>
 #include <vector>
 
+using std::min;
 using std::vector;
 
 Phrase Decoder::decode(const Phrase & original_sentence) {
@@ -16,6 +18,10 @@ vector<vector<double> > Decoder::computeFutureCosts(const Phrase & original_sent
         for (size_t start = 0; start < original_sentence.size(); ++start) {
             size_t end = start + length;
             future_costs[start][end] = DBL_MAX;
+            for (size_t i = start; i < end; ++i) {
+                double new_cost = future_costs[start][i] + future_costs[i + 1][end];
+                future_costs[start][end] = min(future_costs[start][end], new_cost);
+            }
         }
     }
     return future_costs;
