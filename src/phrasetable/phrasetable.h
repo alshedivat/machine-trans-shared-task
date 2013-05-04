@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <boost/foreach.hpp>
 
 using std::map;
 using std::string;
