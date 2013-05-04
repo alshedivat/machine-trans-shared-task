@@ -38,13 +38,19 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
             Phrase phrase(original_sentence.begin() + phrase_begin,
                           original_sentence.begin() + phrase_end);
             if ((true_quantity == 0) && phraseInPhraseTable(phrase)) {
-              Hypothesis new_hypothesis = current;
+              vector<bool> new_used_words = used_words;
               for (size_t index = phrase_begin; index < phrase_end; ++index) {
-                new_hypothesis.used_words[index] = true;
+                new_used_words[index] = true;
               }
               for (size_t phrase_index = 0; phrase_index < phrase_table_.at(phrase).size(); ++phrase_index) {
+                Hypothesis new_hypothesis = current;
+
+                new_hypothesis.last_end = phrase_end;
+                new_hypothesis.used_words = new_used_words;
+
                 Phrase translated_phrase = phrase_table_.at(phrase)[phrase_index].dest;
                 new_hypothesis.sentence.insert(new_hypothesis.sentence.end(), translated_phrase.begin(), translated_phrase.end());
+
                 Phrase subsentence = Phrase(new_hypothesis.sentence.begin() +
                                               max(static_cast<int>(current.sentence.size()) - 2, 0),
                                             new_hypothesis.sentence.end());
@@ -71,7 +77,6 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
                 if (new_hypothesis.used_words[last] == false) {
                   new_hypothesis.future_cost += future_costs[first][last];
                 }
-                new_hypothesis.last_end = phrase_end;
 
                 hypothesis_stacks[phrase_end - phrase_begin].push_back(new_hypothesis);
               }
