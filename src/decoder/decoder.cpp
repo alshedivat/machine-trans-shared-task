@@ -44,7 +44,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) {
 
             int index = phrase_begin;
             while ((index < phrase_end) &&
-                   (current[index] == false)) {
+                   (current.used_words[index] == false)) {
               ++index;
             }
 
