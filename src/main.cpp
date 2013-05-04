@@ -30,9 +30,11 @@ LanguageModel loadLanguageModel(Converter& converter) {
     string sentence;
     vector<Phrase> sentences;
     while (getline(file, sentence)) {
+        cout << sentence << endl;
         sentences.push_back(converter.ToIndex(sentence));
     }
     file.close();
+    cout << "Load all files" << endl;
     return learn_ngram_language_model(sentences, converter.DictSize());
 }
 
@@ -41,6 +43,7 @@ int main() {
         Converter english_converter(ENGLISH_VOCABULARY_PATH);
         Converter french_converter(FRENCH_VOCABULARY_PATH);
         LanguageModel language_model = loadLanguageModel(english_converter);
+        cout << "Load language model" << endl;
         AlignmentModel alignment_model;
         PhraseTable phrase_table = load_phrase_table(PHRASE_TABLE_PATH);
         Decoder decoder(language_model, alignment_model, phrase_table);
