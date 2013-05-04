@@ -1,5 +1,5 @@
-#ifndef DECODER_H
-#define DECODER_H
+#ifndef DECODER_DECODER_H
+#define DECODER_DECODER_H
 
 #include <vector>
 
@@ -57,4 +57,5 @@ class Decoder {
   PhraseTable phrase_table_;
 };
 
-#endif // DECODER_H
+#endif // DECODER_DECODER_H
+

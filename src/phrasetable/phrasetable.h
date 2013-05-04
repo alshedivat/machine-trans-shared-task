@@ -1,5 +1,5 @@
-#ifndef PHRASETABLE_H
-#define PHRASETABLE_H
+#ifndef PHRASETABLE_PHRASETABLE_H
+#define PHRASETABLE_PHRASETABLE_H
 
 #include <unordered_map>
 #include <string>
@@ -32,8 +32,8 @@ public:
 };
 }
 
-typedef unordered_map<vector<int>, vector<Translation> > PhraseTable;
+typedef unordered_map< Phrase, vector<Translation> > PhraseTable;
 
 PhraseTable load_phrase_table(const string & path);
 
-#endif // PHRASETABLE_H
+#endif // PHRASETABLE_PHRASETABLE_H
