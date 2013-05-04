@@ -67,7 +67,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
                       current.cost +
                       language_model_.get_probability(subsentence) +
                       alignment_model_.get_probability(static_cast<int>(phrase_begin) - new_hypothesis.last_end) +
-                      phrase_table_.at(phrase)[phrase_index].source;
+                      phrase_table_.at(phrase)[phrase_index].probability;
 
                 new_hypothesis.future_cost = 0;
                 size_t first = 0;
@@ -84,7 +84,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
                   }
                 }
                 if (new_hypothesis.used_words[last] == false) {
-                  new_hypothesis.future_costs += future_costs[first][last];
+                  new_hypothesis.future_cost += future_costs[first][last];
                 }
                 new_hypothesis.last_end = phrase_end;
 
