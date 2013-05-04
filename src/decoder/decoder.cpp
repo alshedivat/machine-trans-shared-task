@@ -43,41 +43,8 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
                 new_used_words[index] = true;
               }
               for (size_t phrase_index = 0; phrase_index < phrase_table_.at(phrase).size(); ++phrase_index) {
-                Hypothesis new_hypothesis = current;
-
-                new_hypothesis.last_end = phrase_end;
-                new_hypothesis.used_words = new_used_words;
-
-                Phrase translated_phrase = phrase_table_.at(phrase)[phrase_index].dest;
-                new_hypothesis.sentence.insert(new_hypothesis.sentence.end(), translated_phrase.begin(), translated_phrase.end());
-
-                Phrase subsentence = Phrase(new_hypothesis.sentence.begin() +
-                                              max(static_cast<int>(current.sentence.size()) - 2, 0),
-                                            new_hypothesis.sentence.end());
-                new_hypothesis.cost =
-                      current.cost +
-                      language_model_.get_probability(subsentence) +
-                      alignment_model_.get_probability(static_cast<int>(phrase_begin) - new_hypothesis.last_end) +
-                      phrase_table_.at(phrase)[phrase_index].prob;
-
-                new_hypothesis.future_cost = 0;
-                size_t first = 0;
-                size_t last = 0;
-                for (size_t i = 0; i < new_hypothesis.used_words.size(); ++i) {
-                  if (new_hypothesis.used_words[i] == false) {
-                    ++last;
-                  } else {
-                    if (new_hypothesis.used_words[last] == false) {
-                      new_hypothesis.future_cost += future_costs[first][last];
-                    }
-                    last = i;
-                    first = i + 1;
-                  }
-                }
-                if (new_hypothesis.used_words[last] == false) {
-                  new_hypothesis.future_cost += future_costs[first][last];
-                }
-
+                Hypothesis new_hypothesis = CreateNewHypothesis(phrase_begin, phrase_end, phrase_index, phrase,
+                                                                new_used_words, current, future_costs);
                 hypothesis_stacks[phrase_end - phrase_begin].push_back(new_hypothesis);
               }
             }
@@ -98,6 +65,44 @@ void Decoder::EraseBadHypotheses(vector<Hypothesis> * hypothesis_vector) const {
         ++iter;
     }
     hypothesis_vector->erase(iter, hypothesis_vector->end());
+}
+
+Hypothesis Decoder::CreateNewHypothesis(size_t phrase_begin, size_t phrase_end, size_t phrase_index,
+                                        const Phrase& phrase, const vector<bool>& new_used_words,
+                                        const Hypothesis& current,
+                                        const vector<vector<double> >& future_costs) const {
+    Hypothesis new_hypothesis = current;
+    new_hypothesis.last_end = phrase_end;
+    new_hypothesis.used_words = new_used_words;
+    Phrase translated_phrase = phrase_table_.at(phrase)[phrase_index].dest;
+    new_hypothesis.sentence.insert(new_hypothesis.sentence.end(),
+                                   translated_phrase.begin(),
+                                   translated_phrase.end());
+    Phrase subsentence = Phrase(new_hypothesis.sentence.begin() +
+                                max(static_cast<int>(current.sentence.size()) - 2, 0),
+                                new_hypothesis.sentence.end());
+    new_hypothesis.cost = current.cost +
+        language_model_.get_probability(subsentence) +
+        alignment_model_.get_probability(static_cast<int>(phrase_begin) - new_hypothesis.last_end) +
+        phrase_table_.at(phrase)[phrase_index].prob;
+    new_hypothesis.future_cost = 0;
+    size_t first = 0;
+    size_t last = 0;
+    for (size_t i = 0; i < new_hypothesis.used_words.size(); ++i) {
+        if (new_hypothesis.used_words[i] == false) {
+            ++last;
+        } else {
+            if (new_hypothesis.used_words[last] == false) {
+                new_hypothesis.future_cost += future_costs[first][last];
+            }
+            last = i;
+            first = i + 1;
+        }
+    }
+    if (new_hypothesis.used_words[last] == false) {
+        new_hypothesis.future_cost += future_costs[first][last];
+    }
+    return new_hypothesis;
 }
 
 vector<vector<double> > Decoder::computeFutureCosts(const Phrase & original_sentence) const {
