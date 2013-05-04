@@ -43,7 +43,7 @@ class Decoder {
   Decoder(const LanguageModel & language_model,
           const AlignmentModel & alignment_model,
           const PhraseTable & phrase_table,
-          int difference, int quantity)
+          int difference = 100, int quantity = 2)
     : difference_(difference)
     , quantity_(quantity)
     , language_model_(language_model)
