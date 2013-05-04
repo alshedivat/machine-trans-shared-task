@@ -22,7 +22,7 @@ double NgramLanguageModel::get_context_count(Phrase phrase) const {
 	return mapAtOrDefault(seenContext_, phrase, 0);
 }
 
-NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentences, const int wordsCount, const int N, const double alpha) {
+NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentences, const int wordsCount, const size_t N, const double alpha) {
 	const double nu = wordsCount;
 	NgramLanguageModel::Phrase2Stat stat;
 	NgramLanguageModel::Phrase2Stat statContext;

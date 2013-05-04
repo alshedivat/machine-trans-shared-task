@@ -12,7 +12,7 @@ public:
 	typedef std::unordered_map< Phrase, double > Phrase2Stat;
 
 	template< class T >
-	NgramLanguageModel(T&& map, T&& context, int N, double alpha, double nu)
+	NgramLanguageModel(T&& map, T&& context, size_t N, double alpha, double nu)
 		: seenPhrases_(std::forward< T >(map))
 		, seenContext_(std::forward< T >(context))
 		, N_(N)
@@ -37,7 +37,7 @@ private:
 
 	Phrase2Stat seenPhrases_;
 	Phrase2Stat seenContext_;
-	int N_;
+	size_t N_;
 	double alpha_;
 	double nu_;
 };
@@ -45,6 +45,6 @@ private:
 typedef NgramLanguageModel LanguageModel;
 
 /// sentences - corpus, wordsCount - dictionary size, N - parameter in N-gram model, alpha - smoothing
-NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentences, const int wordsCount, const int N = 3, const double alpha = 0.00017);
+NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentences, const int wordsCount, const size_t N = 3, const double alpha = 0.00017);
 
 #endif // LANGUAGEMODEL_H
