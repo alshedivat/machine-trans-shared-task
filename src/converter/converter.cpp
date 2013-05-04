@@ -18,7 +18,11 @@ Phrase Converter::ToIndex(const string& sentence) const {
   std::stringstream sstr(sentence);
   string word;
   while(sstr >> word)
-    indices.push_back(dict_.at(word));
+    try {
+      indices.push_back(dict_.at(word));
+    } catch (const exception& error) {
+      cerr << "Fatal error occurred: " << error.what() << " with word: " << word << endl;
+    }
   return indices;
 }
 
