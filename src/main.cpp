@@ -13,6 +13,7 @@ using std::endl;
 using std::exception;
 using std::ifstream;
 using std::runtime_error;
+using std::string;
 
 LanguageModel loadLanguageModel(Converter& converter) {
     ifstream file(LANGUAGE_MODEL_PATH);
