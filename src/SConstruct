@@ -3,4 +3,5 @@ Default(env.Program('machine_translator',
     ['main.cpp',
      'decoder/decoder.cpp',
      'languagemodel/languagemodel.cpp',
+     'converter/converter.cpp',
 	 'alignmentmodel/alignmentmodel.cpp']))
