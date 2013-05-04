@@ -1,4 +1,4 @@
-#include "LanguageModel.h"
+#include "languagemodel.h"
 
 #include <unordered_map>
 
