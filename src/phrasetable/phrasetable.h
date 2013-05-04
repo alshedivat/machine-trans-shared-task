@@ -1,12 +1,12 @@
 #ifndef PHRASETABLE_H
 #define PHRASETABLE_H
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include <boost/foreach.hpp>
 
-using std::map;
+using std::unordered_map;
 using std::string;
 using std::vector;
 
@@ -18,6 +18,7 @@ struct Translation {
   double prob;
 };
 
+typedef unordered_map<vector<int>, vector<Translation> > PhraseTable;
 namespace std {
 template< class T >
 struct hash< std::vector< T > > {
