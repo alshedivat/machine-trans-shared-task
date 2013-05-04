@@ -57,8 +57,8 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
               for (size_t index = phrase_begin; index < phrase_end; ++index) {
                 new_hypothesis.used_words[index] = true;
               }
-              for (size_t phrase_index = 0; phrase_index < phrase_table_->at(phrase).size(); ++phrase_index) {
-                Phrase translated_phrase = phrase_table_->at(phrase)[phrase_index].dest;
+              for (size_t phrase_index = 0; phrase_index < phrase_table_.at(phrase).size(); ++phrase_index) {
+                Phrase translated_phrase = phrase_table_.at(phrase)[phrase_index].dest;
                 new_hypothesis.sentence.insert(new_hypothesis.sentence.end(), translated_phrase.begin(), translated_phrase.end());
                 Phrase subsentence = Phrase(new_hypothesis.sentence.begin() +
                                               max(static_cast<int>(current.sentence.size()) - 2, 0),
@@ -67,7 +67,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
                       current.cost +
                       language_model_.get_probability(subsentence) +
                       alignment_model_.get_probability(phrase_begin - new_hypothesis.last_end) +
-                      phrase_table_->at(phrase)[phrase_index].source;
+                      phrase_table_.at(phrase)[phrase_index].source;
 
                 new_hypothesis.future_cost = 0;
                 size_t first = 0;
