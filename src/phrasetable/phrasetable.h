@@ -18,7 +18,6 @@ struct Translation {
   double prob;
 };
 
-typedef unordered_map<vector<int>, vector<Translation> > PhraseTable;
 namespace std {
 template< class T >
 struct hash< std::vector< T > > {
@@ -34,8 +33,7 @@ public:
 };
 }
 
-
-typedef map< Phrase, vector< Translation > > PhraseTable;
+typedef unordered_map<vector<int>, vector<Translation> > PhraseTable;
 
 PhraseTable load_phrase_table(const string & path);
 
