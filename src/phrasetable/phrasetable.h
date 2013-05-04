@@ -9,11 +9,11 @@ using std::unordered_map;
 using std::string;
 using std::vector;
 
-const string LANGUAGE_MODEL_PATH = "../../data/corpus/language_model.dat";
-const string ENGLISH_VOCABULARY_PATH = "../../data/corpus/en.vcb";
-const string FRENCH_VOCABULARY_PATH = "../../data/corpus/french.vcb";
+const string LANGUAGE_MODEL_PATH = "../data/corpus/language_model.dat";
+const string ENGLISH_VOCABULARY_PATH = "../data/corpus/en.vcb";
+const string FRENCH_VOCABULARY_PATH = "../data/corpus/fr.vcb";
 const string ENGLISH_SENTENCES_PATH = "../data/corpus/europarl.lowercased.en";
-const string PHRASE_TABLE_PATH = "../../data/corpus/phrase_table.gz";
+const string PHRASE_TABLE_PATH = "../data/corpus/phrase_table.gz";
 
 typedef size_t Word;
 typedef vector< Word > Phrase;

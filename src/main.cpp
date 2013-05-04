@@ -17,7 +17,7 @@ using std::ifstream;
 using std::runtime_error;
 using std::string;
 
-LanguageModel loadLanguageModel(Converter& converter) {
+LanguageModel loadLanguageModel(const Converter& converter) {
     ifstream file(LANGUAGE_MODEL_PATH);
     if (file) {
         file.close();
@@ -30,7 +30,6 @@ LanguageModel loadLanguageModel(Converter& converter) {
     string sentence;
     vector<Phrase> sentences;
     while (getline(file, sentence)) {
-        cout << sentence << endl;
         sentences.push_back(converter.ToIndex(sentence));
     }
     file.close();
