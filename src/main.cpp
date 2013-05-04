@@ -1,4 +1,4 @@
-#include <ifstream>
+#include <fstream>
 #include <stdexcept>
 #include "alignmentmodel/alignmentmodel.h"
 #include "converter/converter.h"
