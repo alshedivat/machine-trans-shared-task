@@ -21,7 +21,7 @@ namespace std {
 template< class T >
 struct hash< std::vector< T > > {
 public:
-    size_t operator()(const std::vector< T > &s) const 
+    size_t operator()(const std::vector< T > &s) const
     {
 		size_t result = 0;
 		std::hash<T> hash;

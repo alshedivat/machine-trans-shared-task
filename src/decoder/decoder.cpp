@@ -20,7 +20,11 @@ vector<vector<double> > Decoder::computeFutureCosts(const Phrase & original_sent
         for (size_t start = 0; start < original_sentence.size(); ++start) {
             size_t end = start + length;
             future_costs[start][end] = numeric_limits<double>::min();
-
+            Phrase phrase_part(original_sentence.begin() + start,
+                               original_sentence.begin() + end);
+            if (phraseInPhraseTable(phrase_part)) {
+                future_costs[start][end] = getMostProbableCost(phrase_part);
+            }
             for (size_t i = start; i < end; ++i) {
                 double new_cost = future_costs[start][i] + future_costs[i + 1][end];
                 future_costs[start][end] = min(future_costs[start][end], new_cost);
@@ -28,4 +32,12 @@ vector<vector<double> > Decoder::computeFutureCosts(const Phrase & original_sent
         }
     }
     return future_costs;
+}
+
+bool Decoder::phraseInPhraseTable(const Phrase& phrase) const {
+    return phrase_table_.find(phrase) != phrase_table_.end();
+}
+
+double Decoder::getMostProbableCost(const Phrase& phrase) const {
+    return phrase_table_[phrase].begin().prob;
 }

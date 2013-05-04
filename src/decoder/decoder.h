@@ -50,6 +50,7 @@ class Decoder {
 
  private:
   vector<vector<double> > computeFutureCosts(const Phrase & original_sentence) const;
+  double getMostProbableCost(const Phrase& phrase) const;
   int difference_;
   int quantity_;
   LanguageModel language_model_;
