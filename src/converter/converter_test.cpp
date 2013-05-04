@@ -4,7 +4,7 @@
 int main() {
   Converter en_converter("../../data/corpus/en.vcb");
 
-  vector<size_t> indices = en_converter.ToIndex("sir commit other !");
+  vector<size_t> indices = en_converter.ToIndex("resumption of the session");
   for (size_t index : indices) {
     std::cout << index << " ";
   }
