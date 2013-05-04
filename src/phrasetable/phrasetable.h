@@ -5,6 +5,12 @@
 #include <string>
 #include <vector>
 
+const string LANGUAGE_MODEL_PATH = "../../data/corpus/language_model.dat"
+const string PHRASE_TABLE_PATH = "../../data/corpus/phrase_table.dat"
+const string ENGLISH_VOCABULARY_PATH = "../../data/corpus/en.vcb"
+const string ENGLISH_SENTENCES_PATH = "../../data/corpus/europarl.tok.en"
+const string PHRASE_TABLE_PATH = "../../data/corpus/phrase_table.gz"
+
 using std::unordered_map;
 using std::string;
 using std::vector;
