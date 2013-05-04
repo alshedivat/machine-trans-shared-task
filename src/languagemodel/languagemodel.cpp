@@ -97,7 +97,7 @@ NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sente
 	NgramLanguageModel::Phrase2Stat stat;
 	NgramLanguageModel::Phrase2Stat statContext;
 	for(const Phrase& sentance : sentences) {
-		std::vector< int > phrase;
+		Phrase phrase;
 		stat[phrase]++;
 		for(Word word : sentance) {
 			if (phrase.size() < N) {
