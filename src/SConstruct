@@ -1,0 +1,3 @@
+env = Environment(CPPXX='g++', CPPFLAGS='-std=c++11 -Wall -Wextra -pedantic -pedantic-errors -s -Ofast')
+Default(env.Program('machine_translator',
+    ['main.cpp']))

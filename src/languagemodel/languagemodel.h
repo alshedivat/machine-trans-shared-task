@@ -1,7 +1,7 @@
 #ifndef LANGUAGEMODEL_H
 #define LANGUAGEMODEL_H
 
-#include "phrasetable.h"
+#include "../phrasetable/phrasetable.h"
 
 class LanguageModel {
  public:
