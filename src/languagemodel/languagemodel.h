@@ -26,7 +26,7 @@ public:
 			throw std::runtime_error("wrong phrase length");
 		double num = get_count(phrase);
 		double denum = get_context_count(phrase);
-		return (num + alpha_) / (denum + nu_ * alpha_);
+		return log(num + alpha_) - log(denum + nu_ * alpha_);
 	}
 
 private:
