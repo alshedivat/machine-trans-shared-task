@@ -12,7 +12,7 @@ using std::reverse;
 using std::erase;
 using std::max;
 
-Phrase Decoder::decode(const Phrase & original_sentence) {
+Phrase Decoder::decode(const Phrase & original_sentence) const {
     vector<vector<Hypothesis> > hypothesis_stacks(original_sentence.size() + 1);
     vector<vector<double> > future_costs = computeFutureCosts(original_sentence);
 
