@@ -15,23 +15,11 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
     vector<vector<double> > future_costs = computeFutureCosts(original_sentence);
 
     Hypothesis zero_hypothesis(original_sentence);
-    hypothesis_stacks[0].push_back(original_sentence);
+    hypothesis_stacks.front().push_back(original_sentence);
 
-    for (size_t stack_index = 0;
-             stack_index <= original_sentence.size();
-             ++stack_index) {
-      sort(hypothesis_stacks[stack_index].begin(),
-           hypothesis_stacks[stack_index].end());
-      reverse(hypothesis_stacks[stack_index].begin(),
-              hypothesis_stacks[stack_index].end());
-
-      vector<Hypothesis>::iterator iter = hypothesis_stacks[stack_index].begin();
-      while ((iter != hypothesis_stacks[stack_index].end()) &&
-             (iter - hypothesis_stacks[stack_index].begin() < quantity_) &&
-             (hypothesis_stacks[stack_index].begin()->total_cost() - iter->total_cost() <= difference_)) {
-        ++iter;
-      }
-      hypothesis_stacks[stack_index].erase(iter, hypothesis_stacks[stack_index].end());
+    for (size_t stack_index = 0; stack_index <= original_sentence.size();
+         ++stack_index) {
+      EraseBadHypotheses(&hypothesis_stacks[stack_index]);
 
       for (size_t hypothesis_index = 0;
            hypothesis_index < hypothesis_stacks[stack_index].size();
@@ -96,6 +84,18 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
       }
     }
     return hypothesis_stacks[original_sentence.size()][0].sentence;
+}
+
+void Decoder::EraseBadHypotheses(vector<Hypothesis> * hypothesis_vector) const {
+    sort(hypothesis_vector->begin(), hypothesis_vector->end());
+    reverse(hypothesis_vector->begin(), hypothesis_vector->end());
+    vector<Hypothesis>::iterator iter = hypothesis_vector->begin();
+    while ((iter != hypothesis_vector->end()) &&
+           (iter - hypothesis_vector->begin() < quantity_) &&
+           (hypothesis_vector->begin()->total_cost() - iter->total_cost() <= difference_)) {
+        ++iter;
+    }
+    hypothesis_vector->erase(iter, hypothesis_vector->end());
 }
 
 vector<vector<double> > Decoder::computeFutureCosts(const Phrase & original_sentence) const {

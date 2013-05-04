@@ -56,6 +56,7 @@ class Decoder {
   vector<vector<double> > computeFutureCosts(const Phrase & original_sentence) const;
   bool phraseInPhraseTable(const Phrase& phrase) const;
   double getMostProbableCost(const Phrase& phrase) const;
+  void EraseBadHypotheses(std::vector<Hypothesis>* hypothesis_vector) const;
   int difference_;
   int quantity_;
   LanguageModel language_model_;
