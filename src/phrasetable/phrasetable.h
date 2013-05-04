@@ -1,11 +1,11 @@
 #ifndef PHRASETABLE_H
 #define PHRASETABLE_H
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
-using std::map;
+using std::unordered_map;
 using std::string;
 using std::vector;
 
@@ -16,7 +16,7 @@ struct Translation {
   double prob;
 };
 
-typedef map<vector<int>, vector<Translation> > PhraseTable;
+typedef unordered_map<vector<int>, vector<Translation> > PhraseTable;
 
 PhraseTable load_phrase_table(const string & path);
 
