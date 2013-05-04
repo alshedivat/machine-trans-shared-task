@@ -5,7 +5,7 @@
 
 class AlignmentModel {
  public:
-  double get_probabilty();
+  double get_probabilty(int distance);
 };
 
 #endif // ALIGNMENTMODEL_ALIGNMENTMODEL_H
