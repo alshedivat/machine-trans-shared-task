@@ -1,5 +1,5 @@
-#ifndef DECODER_H
-#define DECODER_H
+#ifndef DECODER_DECODER_H
+#define DECODER_DECODER_H
 
 #include <vector>
 
@@ -49,7 +49,9 @@ class Decoder {
   Phrase decode(const Phrase & original_sentence);
 
  private:
-  vector<vector<double> > computeFutureCosts(const Phrase & original_sentence);
+  vector<vector<double> > computeFutureCosts(const Phrase & original_sentence) const;
+  bool phraseInPhraseTable(const Phrase& phrase) const;
+  double getMostProbableCost(const Phrase& phrase) const;
   int difference_;
   int quantity_;
   LanguageModel language_model_;
@@ -57,4 +59,5 @@ class Decoder {
   PhraseTable phrase_table_;
 };
 
-#endif // DECODER_H
+#endif // DECODER_DECODER_H
+

@@ -1,3 +1,5 @@
-env = Environment(CPPXX='g++', CPPFLAGS='-std=c++11 -Wall -Wextra -pedantic -pedantic-errors -s -Ofast')
+env = Environment(CPPXX='g++-4.7', CPPFLAGS='-std=c++11 -Wall -Wextra -pedantic -pedantic-errors -s -Ofast')
 Default(env.Program('machine_translator',
-    ['main.cpp']))
+    ['main.cpp',
+     'decoder/decoder.cpp',
+     'languagemodel/language_model.cpp']))
