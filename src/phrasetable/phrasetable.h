@@ -17,6 +17,22 @@ struct Translation {
   double prob;
 };
 
+namespace std {
+template< class T >
+struct hash< std::vector< T > > {
+public:
+    size_t operator()(const std::vector< T > &s) const 
+    {
+		size_t result = 0;
+		std::hash<T> hash;
+		BOOST_FOREACH(auto& word, s)
+			result = result * 31 + hash(word);
+		return result;
+    }
+};
+}
+
+
 typedef map< Phrase, vector< Translation > > PhraseTable;
 
 PhraseTable load_phrase_table(const string & path);
