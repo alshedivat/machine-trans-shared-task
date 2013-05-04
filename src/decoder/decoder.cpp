@@ -93,6 +93,9 @@ Hypothesis Decoder::CreateNewHypothesis(size_t phrase_begin, size_t phrase_end, 
     new_hypothesis.last_end = phrase_end;
     new_hypothesis.used_words = new_used_words;
     Phrase translated_phrase = phrase_table_.at(phrase)[phrase_index].dest;
+    cout << phrase.size() << endl;
+    cout << phrase_table_.at(phrase)[phrase_index].dest.size() << " " << phrase_table_.at(phrase)[phrase_index].prob << endl;
+    cout << translated_phrase.size() << endl;
     new_hypothesis.sentence.insert(new_hypothesis.sentence.end(),
                                    translated_phrase.begin(),
                                    translated_phrase.end());
