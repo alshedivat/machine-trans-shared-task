@@ -50,7 +50,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) {
 
             Phrase phrase(original_sentence.begin() + phrase_begin,
                           original_sentence.begin() + phrase_end);
-            if ((index == phrase_end) && (phrase_table_.count(phrase) > 0)) {
+            if ((index == phrase_end) && phraseInPhraseTable(phrase)) {
               Hypothesis new_hypothesis = current;
               for (int index = phrase_begin; index < phrase_end; ++index) {
                 new_hypothesis.used_words[index] = true;
