@@ -4,6 +4,7 @@
 #include "../phrasetable/phrasetable.h"
 #include <stdexcept>
 #include <unordered_map>
+#include <math.h>
 
 class NgramLanguageModel
 {
