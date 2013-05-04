@@ -1,12 +1,12 @@
-#include "LanguageModel.h"
+#include "languagemodel.h"
 
 #include <unordered_map>
 
 template< class Map >
-static const typename Map::mapped_type& mapAtOrDefault(const Map& map, const typename Map::key_type& key, const typename Map::mapped_type& default) {
+static const typename Map::mapped_type& mapAtOrDefault(const Map& map, const typename Map::key_type& key, const typename Map::mapped_type& defaultResult) {
 	auto iterator = map.find(key);
 	if (iterator == map.end())
-		return default;
+		return defaultResult;
 	return iterator->second;
 }
 
