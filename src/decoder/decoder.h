@@ -43,14 +43,14 @@ class Decoder {
   Decoder(const LanguageModel & language_model,
           const AlignmentModel & alignment_model,
           const PhraseTable & phrase_table,
-          int difference, int quantity)
+          int difference = 100, int quantity = 2)
     : difference_(difference)
     , quantity_(quantity)
     , language_model_(language_model)
     , alignment_model_(alignment_model)
     , phrase_table_(phrase_table) {}
 
-  Phrase decode(const Phrase & original_sentence);
+  Phrase decode(const Phrase & original_sentence) const;
 
  private:
   vector<vector<double> > computeFutureCosts(const Phrase & original_sentence) const;
