@@ -96,9 +96,11 @@ Hypothesis Decoder::CreateNewHypothesis(size_t phrase_begin, size_t phrase_end, 
     new_hypothesis.sentence.insert(new_hypothesis.sentence.end(),
                                    translated_phrase.begin(),
                                    translated_phrase.end());
+    cout << new_hypothesis.sentence.size() << endl;
     Phrase subsentence = Phrase(new_hypothesis.sentence.begin() +
-                                max(static_cast<int>(current.sentence.size()) - 2, 0),
+                                max(static_cast<int>(current.sentence.size()) - 2, static_cast<int>(0)),
                                 new_hypothesis.sentence.end());
+    cout << subsentence.size() << endl;
     new_hypothesis.cost = current.cost +
         language_model_.get_probability(subsentence) +
         alignment_model_.get_probability(static_cast<int>(phrase_begin) - new_hypothesis.last_end) +
