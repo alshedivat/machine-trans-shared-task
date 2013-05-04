@@ -17,7 +17,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
     Hypothesis zero_hypothesis(original_sentence);
     hypothesis_stacks[0].push_back(original_sentence);
 
-    for (int stack_index = 0;
+    for (size_t stack_index = 0;
              stack_index <= original_sentence.size();
              ++stack_index) {
       sort(hypothesis_stacks[stack_index].begin(),
@@ -33,18 +33,18 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
       }
       hypothesis_stack[stack_index].erase(iter, hypothesis_stacks[stack_index].end());
 
-      for (int hypothesis_index = 0;
+      for (size_t hypothesis_index = 0;
            hypothesis_index < hypothesis_stacks[stack_index].size();
            ++hypothesis_index) {
         Hypothesis current = hypothesis_stacks[stack_index][hypothesis_index];
-        for (int phrase_begin = 0;
+        for (size_t phrase_begin = 0;
             phrase_begin < original_sentence.size();
             ++phrase_begin) {
-          for (int phrase_end = phrase_begin + 1;
+          for (size_t phrase_end = phrase_begin + 1;
                phrase_end <= original_sentence.size();
                ++phrase_end) {
 
-            int index = phrase_begin;
+            size_t index = phrase_begin;
             while ((index < phrase_end) &&
                    (current.used_words[index] == false)) {
               ++index;
@@ -54,10 +54,10 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
                           original_sentence.begin() + phrase_end);
             if ((index == phrase_end) && phraseInPhraseTable(phrase)) {
               Hypothesis new_hypothesis = current;
-              for (int index = phrase_begin; index < phrase_end; ++index) {
+              for (size_t index = phrase_begin; index < phrase_end; ++index) {
                 new_hypothesis.used_words[index] = true;
               }
-              for (int phrase_index = 0; phrase_index < phrase_table_[phrase].size(); ++phrase_index) {
+              for (size_t phrase_index = 0; phrase_index < phrase_table_[phrase].size(); ++phrase_index) {
                 Phrase translated_phrase = phrase_table_[phrase][phrase_index].dest;
                 new_hypothesis.sentence.insert(new_hypothesis.sentence.end(), translated_phrase.begin(), translated_phrase.end());
                 Phrase subsentence = Phrase(new_hypothesis.sentence.begin() +
@@ -70,9 +70,9 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
                       phrase_table_[phrase][phrase_index].source;
 
                 new_hypothesis.future_cost = 0;
-                int first = 0;
-                int last = 0;
-                for (int i = 0; i < new_hypothesis.used_words.size(); ++i) {
+                size_t first = 0;
+                size_t last = 0;
+                for (size_t i = 0; i < new_hypothesis.used_words.size(); ++i) {
                   if (new_hypothesis.used_words[i] == false) {
                     ++last;
                   } else {
