@@ -36,7 +36,7 @@ int main() {
 	std::vector< Phrase > phs;
 	for (int i = 0; i < 3; ++i)
 		phs.push_back(Phrase(phrases[i], phrases[i+1]));
-	std::unique_ptr< LanguageModel > model(learnNgramLanguageModel(phs, 4, 2, 0.01));
+	LanguageModel model(learn_ngram_language_model(phs, 4, 2, 0.01));
 
 	for (int i = 0; i < 4; ++i) {
 
@@ -44,10 +44,10 @@ int main() {
 			std::vector< int > phrase;
 			phrase.push_back(i);
 			phrase.push_back(j);
-			printf("%d %d %lf\n", i, j, model->get_probability(phrase));
+			printf("%d %d %lf\n", i, j, model.get_probability(phrase));
 		}
 		std::vector< int > phrase;
 		phrase.push_back(i);
-			printf("%d %lf\n", i, model->get_probability(phrase));
+			printf("%d %lf\n", i, model.get_probability(phrase));
 	}
 }
