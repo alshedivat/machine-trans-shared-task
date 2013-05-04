@@ -1,5 +1,5 @@
-#ifndef ALIGNMENTMODEL_H
-#define ALIGNMENTMODEL_H
+#ifndef ALIGNMENTMODEL_ALIGNMENTMODEL_H
+#define ALIGNMENTMODEL_ALIGNMENTMODEL_H
 
 #include "../phrasetable/phrasetable.h"
 
@@ -8,4 +8,4 @@ class AlignmentModel {
   double get_probabilty();
 };
 
-#endif // ALIGNMENTMODEL_H
+#endif // ALIGNMENTMODEL_ALIGNMENTMODEL_H

@@ -1,7 +1,10 @@
-#include "LanguageModel.h"
+#ifndef LANGUAGEMODEL_LANGUAGEMODEL_H
+#define LANGUAGEMODEL_LANGUAGEMODEL_H
 
 #include <unordered_map>
 #include <boost/foreach.hpp>
+
+#include "languagemodel.h"
 
 template< class Map >
 static const typename Map::mapped_type& mapAtOrDefault(const Map& map, const typename Map::key_type& key, const typename Map::mapped_type& default) {
@@ -42,3 +45,4 @@ NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& senta
 	return NgramLanguageModel(std::move(stat), std::move(statContext), N, alpha, nu);
 }
 
+#endif // LANGUAGEMODEL_LANGUAGEMODEL_H
