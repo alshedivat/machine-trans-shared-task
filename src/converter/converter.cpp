@@ -1,4 +1,10 @@
 #include "converter.h"
+#include <stdexcept>
+#include <iostream>
+
+using std::cerr;
+using std::endl;
+using std::exception;
 
 Converter::Converter(const string& dict_file) {
   std::ifstream input_vcb(dict_file.c_str());
