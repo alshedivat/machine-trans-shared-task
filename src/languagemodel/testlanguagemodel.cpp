@@ -41,12 +41,12 @@ int main() {
 	for (int i = 0; i < 4; ++i) {
 
 		for (int j=  0; j < 4; ++j) {
-			std::vector< int > phrase;
+			Phrase phrase;
 			phrase.push_back(i);
 			phrase.push_back(j);
 			printf("%d %d %lf\n", i, j, model.get_probability(phrase));
 		}
-		std::vector< int > phrase;
+		Phrase phrase;
 		phrase.push_back(i);
 			printf("%d %lf\n", i, model.get_probability(phrase));
 	}
