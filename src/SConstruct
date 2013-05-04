@@ -2,4 +2,4 @@ env = Environment(CPPXX='g++-4.7', CPPFLAGS='-std=c++11 -Wall -Wextra -pedantic 
 Default(env.Program('machine_translator',
     ['main.cpp',
      'decoder/decoder.cpp',
-     'languagemodel/language_model.cpp']))
+     'languagemodel/languagemodel.cpp']))
