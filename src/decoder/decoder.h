@@ -29,8 +29,12 @@ struct Hypothesis {
     , future_cost(0)
     , last_end(0) {}
 
-  bool operator < (const Hypothesis & left) {
+  bool operator < (const Hypothesis & left) const {
     return cost + future_cost < left.cost + left.future_cost;
+  }
+
+  double total_cost() const {
+    return cost + future_cost;
   }
 };
 
