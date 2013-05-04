@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <unordered_map>
+#include "../phrasetable/phrasetable.h"
 
 using std::string;
 using std::vector;
@@ -18,9 +19,11 @@ class Converter {
  public:
   Converter(const string& dict_file);
 
-  vector<size_t> ToIndex(const string& sentence);
+  Phrase ToIndex(const string& sentence) const;
 
-  string ToSentence(const vector<size_t>& indices);
+  string ToSentence(const Phrase& indices) const;
+
+  size_t DictSize() const;
 
  private:
   Dict dict_;
