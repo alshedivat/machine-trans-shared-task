@@ -1,23 +1,18 @@
 #ifndef ALIGNMENTMODEL_ALIGNMENTMODEL_H
 #define ALIGNMENTMODEL_ALIGNMENTMODEL_H
 
-#include <math.h>
-
-#include "../phrasetable/phrasetable.h"
+#include <cmath>
 
 class AlignmentModel {
  public:
-  AlignmentModel(const double alpha)
-	  : alpha_(alpha)
-  {
+  AlignmentModel(double alpha=0.5) : alpha_(alpha) {
   }
 
-  double get_probabilty(int distance) const {
-	  return pow(alpha_, abs(distance));
+  double get_probabilty(int distance) {
+    return pow(alpha_, abs(distance));
   }
 
-private:
-
+ private:
   double alpha_;
 };
 
