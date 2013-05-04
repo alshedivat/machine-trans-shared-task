@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include <fstream>
+#include <stdexcept>
 
 #include "languagemodel.h"
 
@@ -42,7 +43,9 @@ static void writePhraseMap(const NgramLanguageModel::Phrase2Stat& map, FILE* out
 template< class T >
 static T read(FILE* input) {
 	T result;
-	fread(&result, sizeof(result), 1, input);
+	size_t count = fread(&result, sizeof(result), 1, input);
+	if (count != 1)
+		throw std::runtime_error("cannot read file");
 	return result;
 }
 
