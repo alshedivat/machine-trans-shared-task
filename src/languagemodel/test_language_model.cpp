@@ -1,5 +1,5 @@
-#include "LanguageModel.h"
-#include "LanguageModel.h"
+#include "languagemodel.h"
+#include "languagemodel.h"
 
 #include <unordered_map>
 #include <string>

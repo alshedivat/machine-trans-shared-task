@@ -32,7 +32,7 @@ public:
 };
 }
 
-typedef unordered_map<vector<int>, vector<Translation> > PhraseTable;
+typedef unordered_map< Phrase, vector<Translation> > PhraseTable;
 
 PhraseTable load_phrase_table(const string & path);
 
