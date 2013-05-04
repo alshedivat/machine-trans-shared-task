@@ -26,7 +26,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) {
       vector<Hypothesis>::iterator iter = hypothesis_stacks[stack_index].begin();
       while ((iter != hypothesis_stacks[stack_index].end()) &&
              (iter - hypothesis_stacks[stack_index].begin() < quantity_) &&
-             ((*iter) - *(hypothesis_stacks[stack_index].begin()) <= difference_)) {
+             (iter->total_cost - hypothesis_stacks[stack_index].begin()->total_cost() <= difference_)) {
         ++iter;
       }
       erase(iter, hypothesis_stacks[stack_index].end());
@@ -41,11 +41,13 @@ Phrase Decoder::decode(const Phrase & original_sentence) {
           for (int phrase_end = phrase_begin + 1;
                phrase_end <= original_sentence.size();
                ++phrase_end) {
+
             int index = phrase_begin;
             while ((index < phrase_end) &&
                    (current[index] == false)) {
               ++index;
             }
+
             Phrase phrase(original_sentence.begin() + phrase_begin,
                           original_sentence.begin() + phrase_end);
             if ((index == phrase_end) && (phrase_table_.count(phrase) > 0)) {
