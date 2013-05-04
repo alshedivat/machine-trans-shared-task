@@ -37,7 +37,7 @@ PhraseTable load_phrase_table(const string& path, size_t best_trans_num) {
     Translation trans(en_phrase, prob);
     if (!phrase_table.count(fr_phrase))
       phrase_table[fr_phrase] = vector<Translation>();
-    phrase_table[en_phrase].push_back(trans);
+    phrase_table[fr_phrase].push_back(trans);
   }
 
   return phrase_table;
