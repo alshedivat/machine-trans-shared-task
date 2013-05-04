@@ -7,8 +7,12 @@
 using std::min;
 using std::numeric_limits;
 using std::vector;
+using std::sort;
+using std::reverse;
+using std::erase;
+using std::max;
 
-Phrase Decoder::decode(const Phrase & original_sentence) {
+Phrase Decoder::decode(const Phrase & original_sentence) const {
     vector<vector<Hypothesis> > hypothesis_stacks(original_sentence.size() + 1);
     vector<vector<double> > future_costs = computeFutureCosts(original_sentence);
 
@@ -16,20 +20,20 @@ Phrase Decoder::decode(const Phrase & original_sentence) {
     hypothesis_stacks[0].push_back(original_sentence);
 
     for (int stack_index = 0;
-             stack_index < original_sentence.size();
+             stack_index <= original_sentence.size();
              ++stack_index) {
       sort(hypothesis_stacks[stack_index].begin(),
            hypothesis_stacks[stack_index].end());
-      reverse(hypothesis_stacks[stack_index].begin(),
-              hypothesis_stacks[stack_index].end());
+      hypothesis_stacks[stack_index].reverse(hypothesis_stacks[stack_index].begin(),
+                                             hypothesis_stacks[stack_index].end());
 
       vector<Hypothesis>::iterator iter = hypothesis_stacks[stack_index].begin();
       while ((iter != hypothesis_stacks[stack_index].end()) &&
              (iter - hypothesis_stacks[stack_index].begin() < quantity_) &&
-             (iter->total_cost - hypothesis_stacks[stack_index].begin()->total_cost() <= difference_)) {
+             (hypothesis_stacks[stack_index].begin()->total_cost() - iter->total_cost() <= difference_)) {
         ++iter;
       }
-      erase(iter, hypothesis_stacks[stack_index].end());
+      hypothesis_stack[stack_index].erase(iter, hypothesis_stacks[stack_index].end());
 
       for (int hypothesis_index = 0;
            hypothesis_index < hypothesis_stacks[stack_index].size();
@@ -57,31 +61,31 @@ Phrase Decoder::decode(const Phrase & original_sentence) {
               }
               for (int phrase_index = 0; phrase_index < phrase_table_[phrase].size(); ++phrase_index) {
                 Phrase translated_phrase = phrase_table_[phrase][phrase_index].dest;
-                insert(new_hypothesis.sentence.end(), translated_phrase.begin(), translated_phrase.end());
+                new_hypothesis.sentence.insert(new_hypothesis.sentence.end(), translated_phrase.begin(), translated_phrase.end());
                 Phrase subsentence = Phrase(new_hypothesis.sentence.begin() +
-                                              max(current.sentece.size() - 2, 0),
-                                            new_hypothesis.sentece.end());
+                                              max(static_cast<int>(current.sentence.size()) - 2, 0),
+                                            new_hypothesis.sentence.end());
                 new_hypothesis.cost =
                       current.cost +
                       language_model_.get_probability(subsentence) +
-                      alignment_model_.get_probability(phrase_begin - last_end) +
+                      alignment_model_.get_probability(phrase_begin - new_hypothesis.last_end) +
                       phrase_table_[phrase][phrase_index].source;
 
-                new_hypothesis.future_costs = 0;
+                new_hypothesis.future_cost = 0;
                 int first = 0;
                 int last = 0;
                 for (int i = 0; i < new_hypothesis.used_words.size(); ++i) {
                   if (new_hypothesis.used_words[i] == false) {
                     ++last;
                   } else {
-                    if (last > first) {
-                      new_hypothesis.future_costs += future_costs[first][last];
+                    if (new_hypothesis.used_words[last] == false) {
+                      new_hypothesis.future_cost += future_costs[first][last];
                     }
                     last = i;
-                    first = i;
+                    first = i + 1;
                   }
                 }
-                if (first > last) {
+                if (new_hypothesis.used_words[last] == false) {
                   new_hypothesis.future_costs += future_costs[first][last];
                 }
                 new_hypothesis.last_end = phrase_end;
@@ -93,7 +97,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) {
         }
       }
     }
-    return hypothesis_stacks[original_sentence.size()][0].sentece;
+    return hypothesis_stacks[original_sentence.size()][0].sentence;
 }
 
 vector<vector<double> > Decoder::computeFutureCosts(const Phrase & original_sentence) const {
