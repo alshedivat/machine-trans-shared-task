@@ -2,7 +2,6 @@
 #define LANGUAGEMODEL_LANGUAGEMODEL_H
 
 #include <unordered_map>
-#include <boost/foreach.hpp>
 
 #include "languagemodel.h"
 
@@ -23,14 +22,14 @@ double NgramLanguageModel::get_context_count(Phrase phrase) const {
 	return mapAtOrDefault(seenContext_, phrase, 0);
 }
 
-NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentances, const int wordsCount, const int N, const double alpha) {
+NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentences, const int wordsCount, const int N, const double alpha) {
 	const double nu = wordsCount;
 	NgramLanguageModel::Phrase2Stat stat;
 	NgramLanguageModel::Phrase2Stat statContext;
-	BOOST_FOREACH(const Phrase& sentance, sentances) {
+	for(const Phrase& sentance : sentences) {
 		std::vector< int > phrase;
 		stat[phrase]++;
-		BOOST_FOREACH(Word word, sentance) {
+		for(Word word : sentance) {
 			if (phrase.size() < N) {
 				statContext[phrase]++;
 			} else {
