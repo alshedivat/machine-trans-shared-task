@@ -13,20 +13,24 @@ Converter::Converter(const string& dict_file) {
   }
 }
 
-vector<size_t> Converter::ToIndex(const string& sentence) {
-  vector<size_t> indices;
+Phrase Converter::ToIndex(const string& sentence) const {
+  Phrase indices;
   std::stringstream sstr(sentence);
   string word;
   while(sstr >> word)
-    indices.push_back(dict_[word]);
+    indices.push_back(dict_.at(word));
   return indices;
 }
 
-string Converter::ToSentence(const vector<size_t>& indices) {
+string Converter::ToSentence(const Phrase& indices) const {
   string sentence;
   std::stringstream sstr(sentence);
   for (size_t index : indices)
     sstr << words_[index - 1] << " ";
   return sstr.str();
+}
+
+size_t Converter::DictSize() const {
+  return words_.size();
 }
 

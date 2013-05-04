@@ -15,7 +15,7 @@ using std::unordered_map;
 using std::string;
 using std::vector;
 
-typedef int Word;
+typedef size_t Word;
 typedef vector< Word > Phrase;
 
 struct Translation {
