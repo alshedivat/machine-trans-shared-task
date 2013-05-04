@@ -38,7 +38,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
             Phrase phrase(original_sentence.begin() + phrase_begin,
                           original_sentence.begin() + phrase_end);
             if ((true_quantity == 0) && phraseInPhraseTable(phrase)) {
-              vector<bool> new_used_words = used_words;
+              vector<bool> new_used_words = current.used_words;
               for (size_t index = phrase_begin; index < phrase_end; ++index) {
                 new_used_words[index] = true;
               }
