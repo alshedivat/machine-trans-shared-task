@@ -17,6 +17,7 @@ using std::max;
 
 Phrase Decoder::decode(const Phrase & original_sentence) const {
     vector<vector<Hypothesis> > hypothesis_stacks(original_sentence.size() + 1);
+    cout << "Start computing Future costs" << endl;
     vector<vector<double> > future_costs = computeFutureCosts(original_sentence);
     cout << "Future costs computed" << endl;
     Hypothesis zero_hypothesis(original_sentence);
@@ -126,8 +127,8 @@ vector<vector<double> > Decoder::computeFutureCosts(const Phrase & original_sent
     vector<vector<double> > future_costs(original_sentence.size(),
                                          vector<double>(original_sentence.size()));
     for (size_t length = 1; length <= original_sentence.size(); ++length) {
-        for (size_t start = 0; start < original_sentence.size(); ++start) {
-            size_t end = start + length;
+        for (size_t start = 0; start + length <= original_sentence.size(); ++start) {
+            size_t end = start + length - 1;
             future_costs[start][end] = numeric_limits<double>::min();
             Phrase phrase_part(original_sentence.begin() + start,
                                original_sentence.begin() + end);
