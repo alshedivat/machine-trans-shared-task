@@ -31,6 +31,8 @@ public:
 
 	void save(const std::string& path) const;
 
+	bool operator ==(const NgramLanguageModel& other) const;
+
 private:
 
 	double get_count(const Phrase& phrase) const;

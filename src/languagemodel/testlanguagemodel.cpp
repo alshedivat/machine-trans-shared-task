@@ -50,4 +50,8 @@ int main() {
 		phrase.push_back(i);
 			printf("%d %lf\n", i, model.get_probability(phrase));
 	}
+
+	model.save("lmodel.bin");
+	if (!(model == load_ngram_language_model("lmodel.bin")))
+		throw 42;
 }
