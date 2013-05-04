@@ -66,7 +66,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
                 new_hypothesis.cost =
                       current.cost +
                       language_model_.get_probability(subsentence) +
-                      alignment_model_.get_probability(phrase_begin - new_hypothesis.last_end) +
+                      alignment_model_.get_probability(static_cast<int>(phrase_begin) - new_hypothesis.last_end) +
                       phrase_table_.at(phrase)[phrase_index].source;
 
                 new_hypothesis.future_cost = 0;
