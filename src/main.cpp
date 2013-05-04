@@ -50,12 +50,17 @@ int main() {
         string sentence;
         while (getline(cin, sentence)) {
             Phrase french_phrase = french_converter.ToIndex(sentence);
-            cout << "Readed: " << sentence << "||| Converted to: ";
+            cout << "Readed: " << sentence << " ||| Converted to: ";
             for (size_t i = 0; i < french_phrase.size(); ++i) {
                 cout << french_phrase[i] << " ";
             }
             cout << endl;
             Phrase english_phrase = decoder.decode(french_phrase);
+            cout << "Decoded to: ";
+            for (size_t i = 0; i < french_phrase.size(); ++i) {
+                cout << english_phrase[i] << " ";
+            }
+            cout << "||| Converted to: "
             cout << english_converter.ToSentence(english_phrase) << endl;
         }
         return 0;
