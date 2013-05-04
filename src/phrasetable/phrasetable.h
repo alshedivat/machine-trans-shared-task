@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
-#include <boost/foreach.hpp>
 
 using std::unordered_map;
 using std::string;
@@ -26,7 +25,7 @@ public:
     {
 		size_t result = 0;
 		std::hash<T> hash;
-		BOOST_FOREACH(auto& word, s)
+		for(auto& word : s)
 			result = result * 31 + hash(word);
 		return result;
     }
