@@ -1,9 +1,13 @@
 #ifndef PHRASETABLE_H
 #define PHRASETABLE_H
 
+#include <map>
+#include <string>
 #include <vector>
 
-using namespace std;
+using std::map;
+using std::string;
+using std::vector;
 
 typedef vector<int> Phrase;
 

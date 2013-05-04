@@ -1,11 +1,11 @@
 #ifndef ALIGNMENTMODEL_H
 #define ALIGNMENTMODEL_H
 
-#include "phrasetable.h"
+#include "../phrasetable/phrasetable.h"
 
 class AlignmentModel {
  public:
-  double get_probabilty(?????????);
+  double get_probabilty();
 };
 
 #endif // ALIGNMENTMODEL_H

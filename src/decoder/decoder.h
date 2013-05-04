@@ -3,11 +3,11 @@
 
 #include <vector>
 
-#include "phrasetable.h"
-#include "languagemodel.h"
-#include "alignmentmodel.h"
+#include "../phrasetable/phrasetable.h"
+#include "../languagemodel/languagemodel.h"
+#include "../alignmentmodel/alignmentmodel.h"
 
-using namespace std;
+using std::vector;
 
 struct Hypothesis {
   Phrase sentence;
