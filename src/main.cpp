@@ -19,12 +19,12 @@ using std::string;
 
 LanguageModel loadLanguageModel(Converter& converter) {
     ifstream file(LANGUAGE_MODEL_PATH);
-    if (file && file.good()) {
+    if (file) {
         file.close();
         return load_ngram_language_model(LANGUAGE_MODEL_PATH);
     }
     file.open(ENGLISH_SENTENCES_PATH);
-    if (!file || !file.good()) {
+    if (!file) {
         throw runtime_error("Failed to load english sentences");
     }
     string sentence;
