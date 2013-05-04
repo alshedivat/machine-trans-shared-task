@@ -39,5 +39,5 @@ bool Decoder::phraseInPhraseTable(const Phrase& phrase) const {
 }
 
 double Decoder::getMostProbableCost(const Phrase& phrase) const {
-    return phrase_table_[phrase].begin().prob;
+    return phrase_table_.at(phrase).begin()->prob;
 }
