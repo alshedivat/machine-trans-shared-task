@@ -49,7 +49,7 @@ class Decoder {
   Phrase decode(const Phrase & original_sentence);
 
  private:
-  vector<vector<double> > computeFutureCosts(const Phrase & original_sentence);
+  vector<vector<double> > computeFutureCosts(const Phrase & original_sentence) const;
   int difference_;
   int quantity_;
   LanguageModel language_model_;
