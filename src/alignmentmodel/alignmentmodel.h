@@ -8,7 +8,7 @@ class AlignmentModel {
   AlignmentModel(double alpha=0.5) : alpha_(alpha) {
   }
 
-  double get_probability(int distance) {
+  double get_probability(int distance) const {
     return log(pow(alpha_, std::abs(distance)));
   }
 
