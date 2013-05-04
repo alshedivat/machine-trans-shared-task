@@ -4,4 +4,5 @@ Default(env.Program('machine_translator',
      'decoder/decoder.cpp',
      'languagemodel/languagemodel.cpp',
      'converter/converter.cpp',
+     'phrasetable/phrasetable.cpp',
 	 'alignmentmodel/alignmentmodel.cpp']))
