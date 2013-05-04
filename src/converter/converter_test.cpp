@@ -13,5 +13,7 @@ int main() {
   string sentence = en_converter.ToSentence(indices);
   std::cout << sentence << std::endl;
 
+  std::cout << en_converter.DictSize() << std::endl;
+
   return 0;
 }

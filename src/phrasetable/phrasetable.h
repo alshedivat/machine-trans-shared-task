@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-
 using std::unordered_map;
 using std::string;
 using std::vector;
@@ -20,8 +19,18 @@ typedef size_t Word;
 typedef vector< Word > Phrase;
 
 struct Translation {
+  Translation(Phrase phrase, double probability)
+      : dest(phrase), prob(probability)
+  {}
+
   Phrase dest;
   double prob;
+};
+
+struct pred {
+  bool operator()(Translation const & a, Translation const & b) const {
+    return a.prob < b.prob;
+  }
 };
 
 namespace std {
@@ -41,6 +50,6 @@ public:
 
 typedef unordered_map< Phrase, vector<Translation> > PhraseTable;
 
-PhraseTable load_phrase_table(const string & path);
+PhraseTable load_phrase_table(const string & path, size_t best_trans_num = 2);
 
 #endif // PHRASETABLE_PHRASETABLE_H
