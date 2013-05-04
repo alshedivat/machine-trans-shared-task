@@ -21,13 +21,15 @@ public:
 	{
 	}
 
-	double get_probability(const Phrase& phrase) {
+	double get_probability(const Phrase& phrase) const {
 		if (phrase.size() < 1)
 			throw std::runtime_error("wrong phrase length");
 		double num = get_count(phrase);
 		double denum = get_context_count(phrase);
 		return log(num + alpha_) - log(denum + nu_ * alpha_);
 	}
+
+	void save(const std::string& path) const;
 
 private:
 
@@ -46,5 +48,8 @@ typedef NgramLanguageModel LanguageModel;
 
 /// sentences - corpus, wordsCount - dictionary size, N - parameter in N-gram model, alpha - smoothing
 NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentences, const int wordsCount, const size_t N = 3, const double alpha = 0.00017);
+
+NgramLanguageModel load_ngram_language_model(const std::string& path);
+
 
 #endif // LANGUAGEMODEL_H
