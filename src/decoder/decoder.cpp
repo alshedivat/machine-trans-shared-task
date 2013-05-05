@@ -72,6 +72,7 @@ void Decoder::EraseBadHypotheses(vector<Hypothesis> * hypothesis_vector) const {
     ++iter;
   }
   hypothesis_vector->erase(iter, hypothesis_vector->end());
+  hypothesis_vector->shrink_to_fit();
 }
 
 Hypothesis Decoder::CreateNewHypothesis(
