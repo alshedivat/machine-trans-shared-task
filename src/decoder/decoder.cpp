@@ -3,7 +3,10 @@
 #include <limits>
 #include <vector>
 #include <algorithm>
+<<<<<<< HEAD
 #include <exception>
+=======
+>>>>>>> 1596bf8601276bfa447b317c019e4443a6793070
 
 using std::min;
 using std::numeric_limits;
@@ -16,18 +19,15 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
     vector<vector<double> > future_costs = computeFutureCosts(original_sentence);
     Hypothesis zero_hypothesis(original_sentence);
     hypothesis_stacks.front().push_back(original_sentence);
-
     for (size_t stack_index = 0; stack_index <= original_sentence.size();
          ++stack_index) {
       EraseBadHypotheses(&hypothesis_stacks[stack_index]);
-
       for (size_t hypothesis_index = 0;
            hypothesis_index < hypothesis_stacks[stack_index].size();
            ++hypothesis_index) {
         Hypothesis current = hypothesis_stacks[stack_index][hypothesis_index];
-        for (size_t phrase_begin = 0;
-            phrase_begin < original_sentence.size();
-            ++phrase_begin) {
+        for (size_t phrase_begin = 0; phrase_begin < original_sentence.size();
+             ++phrase_begin) {
           for (size_t phrase_end = phrase_begin + 1;
                phrase_end <= original_sentence.size();
                ++phrase_end) {
@@ -41,7 +41,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
               for (size_t index = phrase_begin; index < phrase_end; ++index) {
                 new_used_words[index] = true;
               }
-              for (size_t phrase_index = 0; phrase_index < phrase_table_->at(phrase).size(); ++phrase_index) {
+              for (size_t phrase_index = 0; phrase_index < phrase_table_.at(phrase).size(); ++phrase_index) {
                 Hypothesis new_hypothesis = CreateNewHypothesis(phrase_begin, phrase_end, phrase_index, phrase,
                                                                 new_used_words, current, future_costs);
                 hypothesis_stacks[phrase_end - phrase_begin + stack_index].push_back(new_hypothesis);
