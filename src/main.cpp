@@ -53,8 +53,8 @@ int main(int argc, char** argv) {
             program_options_parser.english_sentences_path());
         AlignmentModel alignment_model;
         PhraseTable phrase_table = load_phrase_table(
-            program_options_parser.phrase_table_path());
-        Decoder decoder(&language_model, &alignment_model, &phrase_table);
+            program_options_parser.phrase_table_path(), 5);
+        Decoder decoder(&language_model, &alignment_model, &phrase_table, 1000, 1000);
 
         string sentence;
         while (getline(cin, sentence)) {
