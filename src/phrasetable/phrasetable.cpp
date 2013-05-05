@@ -46,6 +46,7 @@ PhraseTable load_phrase_table(const string& path, size_t best_trans_num) {
         auto start = phrase_table[prev_fr_phrase].begin() + best_trans_num;
         auto end   = phrase_table[prev_fr_phrase].end();
         phrase_table[prev_fr_phrase].erase(start, end);
+        phrase_table[prev_fr_phrase].shrink_to_fit();
       }
     }
 
