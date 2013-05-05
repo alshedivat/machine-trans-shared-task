@@ -25,7 +25,7 @@ PhraseTable PhraseTableLoader::load_phrase_table(const string& path,
     read_symbol = fgetc(file);
   }
   int line_number = 0;
-  while(read_symbol != EOF) {
+  while((read_symbol = fgetc(file)) != EOF) {
     ++line_number;
     if (line_number % 5000000 == 0) {
       cout << "Read " << line_number << " lines" << endl;
@@ -62,7 +62,7 @@ PhraseTable PhraseTableLoader::load_phrase_table(const string& path,
 
 Phrase PhraseTableLoader::ExtractPhrase(FILE* file, int& read_symbol) const {
   Phrase phrase;
-  while ((read_symbol = fgetc(file)) != '|') {
+  while (read_symbol != '|') {
     string number;
     while (isdigit(read_symbol)) {
       number.push_back(read_symbol);
@@ -70,15 +70,15 @@ Phrase PhraseTableLoader::ExtractPhrase(FILE* file, int& read_symbol) const {
     }
     int phrase_element = atoi(number.data());
     phrase.push_back(phrase_element);
-    read_symbol = fgetc(file); // skip space
+    read_symbol = fgetc(file);
   }
   return phrase;
 }
 
 void PhraseTableLoader::SkipDelimiter(FILE* file, int& read_symbol) const {
-  while ((read_symbol = fgetc(file)) == '|') {
+  while (read_symbol == '|') {
+    read_symbol = fgetc(file);
   }
-  read_symbol = fgetc(file); // skip space
 }
 
 double PhraseTableLoader::ExtractProbability(FILE* file,

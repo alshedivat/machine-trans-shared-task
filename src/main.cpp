@@ -57,11 +57,13 @@ int main(int argc, char** argv) {
             english_converter,
             program_options_parser.language_model_path(),
             program_options_parser.english_sentences_path());
-        AlignmentModel alignment_model(0.1);
+
+        AlignmentModel alignment_model(0.01);
         PhraseTableLoader phrase_table_loader;
         PhraseTable phrase_table = phrase_table_loader.load_phrase_table(
-            program_options_parser.phrase_table_path(), 1);
-        Decoder decoder(&language_model, &alignment_model, &phrase_table, 1000, 500);
+            program_options_parser.phrase_table_path(), 5);
+        Decoder decoder(&language_model, &alignment_model, &phrase_table, 100, 100);
+
         ifstream input_file(program_options_parser.input_file_path());
         if (!input_file) {
             throw runtime_error("Failed to open input file");
