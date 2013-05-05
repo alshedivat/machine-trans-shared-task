@@ -25,9 +25,19 @@ public:
 	double get_probability(const Phrase& phrase) const {
 		if (phrase.size() < 1)
 			throw std::runtime_error("wrong phrase length");
-		double num = get_count(phrase);
-		double denum = get_context_count(phrase);
-		return log(num + alpha_) - log(denum + nu_ * alpha_);
+		double language_model_cost = 0;
+                for (size_t index = 0; index + 3 <= phrase.size(); ++index) {
+             		Phrase subphrase = Phrase(phrase.begin() + index, phrase.begin() + index + 3);
+
+			double num = get_count(subphrase);
+			double denum = get_context_count(subphrase);
+			language_model_cost += log(num + alpha_) - log(denum + nu_ * alpha_);
+		}
+		return language_model_cost;
+	}
+	
+	size_t get_length() const {
+		return N_;
 	}
 
 	void save(const std::string& path) const;
