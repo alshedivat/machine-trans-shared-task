@@ -20,8 +20,12 @@ void ProgramOptionsParser::Parse(int argc, char** argv) {
         "Name of file containing english vocabulary")
       ("french_vocabulary_path,f", value<string>(&french_vocabulary_path_),
         "Name of file containing french vocabulary")
+      ("input_file_path,i", value<string>(&input_file_path_),
+        "Name of input file")
       ("language_model_path,l", value<string>(&language_model_path_),
         "Name of file containing language model")
+      ("output_file_path,o", value<string>(&output_file_path_),
+        "Name of output file")
       ("phrase_table_path,p", value<string>(&phrase_table_path_),
         "name of file containing phrase table");
   store(parse_command_line(argc, argv, program_options_description),

@@ -15,6 +15,7 @@ using std::getline;
 using std::endl;
 using std::exception;
 using std::ifstream;
+using std::ofstream;
 using std::runtime_error;
 using std::string;
 
@@ -55,13 +56,22 @@ int main(int argc, char** argv) {
         PhraseTable phrase_table = load_phrase_table(
             program_options_parser.phrase_table_path());
         Decoder decoder(&language_model, &alignment_model, &phrase_table);
-
+        ifstream input_file(program_options_parser.input_file_path());
+        if (!input_file) {
+            throw runtime_error("Failed to open input file");
+        }
+        ofstream output_file(program_options_parser.output_file_path());
+        if (!output_file) {
+            throw runtime_error("Failed to open output file");
+        }
         string sentence;
-        while (getline(cin, sentence)) {
+        while (getline(input_file, sentence)) {
             Phrase french_phrase = french_converter.ToIndex(sentence);
             Phrase english_phrase = decoder.decode(french_phrase);
-            cout << english_converter.ToSentence(english_phrase) << endl;
+            output_file << english_converter.ToSentence(english_phrase) << endl;
         }
+        input_file.close();
+        output_file.close();
         return 0;
     } catch (const exception& error) {
         cerr << "Fatal error occurred: " << error.what() << endl;
