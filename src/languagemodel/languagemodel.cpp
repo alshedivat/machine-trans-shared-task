@@ -119,13 +119,11 @@ NgramLanguageModel learn_ngram_language_model(
 	for(const Phrase& sentance : sentences) {
 		Phrase phrase;
 		for(Word word : sentance) {
-			if (phrase.size() < N) {
-				statContext[phrase]++;
-			} else {
+			if (phrase.size() >= N) {
 				std::copy(phrase.begin() + 1, phrase.end(), phrase.begin());
 				phrase.pop_back();
-				statContext[phrase]++;
 			}
+			statContext[phrase]++;
 			phrase.push_back(word);
 			stat[phrase]++;
 		}
