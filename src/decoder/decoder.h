@@ -13,7 +13,7 @@ struct Hypothesis {
   Phrase sentence;
   vector<bool> used_words;
   double cost, future_cost, language_model_cost;
-  int last_end;
+  size_t last_end;
 
   Hypothesis()
     : sentence(0)
@@ -57,7 +57,7 @@ class Decoder {
  private:
   vector<vector<double> > computeFutureCosts(const Phrase & original_sentence) const;
   bool phraseInPhraseTable(const Phrase& phrase) const;
-  double getMostProbableCost(const Phrase& phrase) const;
+  Translation getMostProbableTranslation(const Phrase& phrase) const;
   void EraseBadHypotheses(std::vector<Hypothesis>* hypothesis_vector) const;
   Hypothesis CreateNewHypothesis(size_t phrase_begin, size_t phrase_end, size_t phrase_index,
                                  const Phrase& phrase, const vector<bool>& new_used_words,
