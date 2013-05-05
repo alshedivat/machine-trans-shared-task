@@ -62,8 +62,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
 }
 
 void Decoder::EraseBadHypotheses(vector<Hypothesis> * hypothesis_vector) const {
-  sort(hypothesis_vector->begin(), hypothesis_vector->end());
-  reverse(hypothesis_vector->begin(), hypothesis_vector->end());
+  sort(hypothesis_vector->rbegin(), hypothesis_vector->rend());
   vector<Hypothesis>::iterator iter = hypothesis_vector->begin();
   while ((iter != hypothesis_vector->end()) &&
          (iter - hypothesis_vector->begin() < quantity_) &&
