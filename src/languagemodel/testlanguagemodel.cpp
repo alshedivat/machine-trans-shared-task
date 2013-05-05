@@ -36,7 +36,7 @@ int main() {
 	std::vector< Phrase > phs;
 	for (int i = 0; i < 3; ++i)
 		phs.push_back(Phrase(phrases[i], phrases[i+1]));
-	LanguageModel model(learn_ngram_language_model(phs, 4, 2, 0.01));
+	LanguageModel model(learn_ngram_language_model(phs, 4, 2, 0.0001));
 
 	for (int i = 0; i < 4; ++i) {
 
@@ -50,6 +50,14 @@ int main() {
 		phrase.push_back(i);
 			printf("%d %lf\n", i, model.get_probability(phrase));
 	}
+
+	Phrase phrase;
+	phrase.push_back(2);
+	phrase.push_back(3);
+	phrase.push_back(1);
+	printf("2 3 1 %lf\n", model.get_probability(phrase));
+	
+
 
 	model.save("lmodel.bin");
 	if (!(model == load_ngram_language_model("lmodel.bin")))

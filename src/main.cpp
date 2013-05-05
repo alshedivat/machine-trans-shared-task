@@ -24,23 +24,21 @@ LanguageModel loadLanguageModel(const Converter& converter,
                                 const string& english_sentences_path) {
     ifstream file(language_model_path.data());
     if (file) {
-        file.close();
-        return load_ngram_language_model(language_model_path.data());
-    }
-    file.open(english_sentences_path.data());
-    if (!file) {
-        throw runtime_error("Failed to load english sentences");
-    }
-    string sentence;
-    vector<Phrase> sentences;
-    cout << "Reading english corpus" << endl;
-    while (getline(file, sentence)) {
-	Phrase phrase(2, 0);
-	Phrase sent = converter.ToIndex(sentence);
-	phrase.insert(phrase.end(), sent.begin(), sent.end());
-        sentences.push_back(phrase);
-    }
-    file.close();
+		file.close();
+		return load_ngram_language_model(language_model_path.data());
+	}
+	file.open(english_sentences_path.data());
+	if (!file) {
+		throw runtime_error("Failed to load english sentences");
+	}
+	string sentence;
+	vector<Phrase> sentences;
+	cout << "Reading english corpus" << endl;
+	while (getline(file, sentence)) {
+		Phrase sent = converter.ToIndex(sentence);
+		sentences.push_back(sent);
+	}
+	file.close();
     return learn_ngram_language_model(sentences, converter.DictSize(), 3);
 }
 
