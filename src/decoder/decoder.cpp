@@ -97,8 +97,13 @@ Hypothesis Decoder::CreateNewHypothesis(
                               max(static_cast<int>(current.sentence.size()) - 2,
                                   static_cast<int>(0)),
                               new_hypothesis.sentence.end());
+  double language_model_cost = 0;
+  for (size_t index = 0; index + 3 <= subsentence.size(); ++index) {
+    Phrase sub_subsentence = Phrase(subsentence.begin() + index, subsentence.begin() + 3);
+    language_model_cost += language_model_->get_probability(sub_subsentence);
+  }
   new_hypothesis.cost = current.cost +
-      language_model_->get_probability(subsentence) +
+      language_model_cost +
       alignment_model_->get_probability(static_cast<int>(phrase_begin) -
                                         current.last_end) +
       phrase_table_->at(phrase)[phrase_index].prob;
