@@ -1,8 +1,10 @@
 #include "programoptionsparser.h"
 #include <boost/program_options.hpp>
+#include <fstream>
 #include <string>
 
 using namespace boost::program_options;
+using std::ifstream;
 using std::string;
 
 void ProgramOptionsParser::Parse(int argc, char** argv) {
@@ -25,8 +27,12 @@ void ProgramOptionsParser::Parse(int argc, char** argv) {
   store(parse_command_line(argc, argv, program_options_description),
         program_options_storage);
   notify(program_options_storage);
-  store(parse_config_file<char>(configuration_filename.data(),
-                                program_options_description),
-        program_options_storage);
-  notify(program_options_storage);
+  ifstream file(configuration_filename.data());
+  if (file) {
+    file.close();
+    store(parse_config_file<char>(configuration_filename.data(),
+                                  program_options_description),
+          program_options_storage);
+    notify(program_options_storage);
+  }
 }

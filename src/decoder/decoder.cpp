@@ -1,5 +1,6 @@
 #include "decoder.h"
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include <vector>
 #include <algorithm>
@@ -110,7 +111,9 @@ vector<vector<double> > Decoder::computeFutureCosts(const Phrase & original_sent
             Phrase phrase_part(original_sentence.begin() + start,
                                original_sentence.begin() + end);
             if (phraseInPhraseTable(phrase_part)) {
-                future_costs[start][end] = getMostProbableCost(phrase_part);
+                future_costs[start][end] =
+                    getMostProbableCost(phrase_part) +
+                    language_model_->get_probability(phrase_part);
             }
             for (size_t i = start; i < end; ++i) {
                 double new_cost = future_costs[start][i] + future_costs[i + 1][end];
@@ -126,5 +129,5 @@ bool Decoder::phraseInPhraseTable(const Phrase& phrase) const {
 }
 
 double Decoder::getMostProbableCost(const Phrase& phrase) const {
-    return phrase_table_->at(phrase).begin()->prob;
+    return log(phrase_table_->at(phrase).begin()->prob);
 }
