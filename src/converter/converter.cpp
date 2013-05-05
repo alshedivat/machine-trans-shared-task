@@ -1,4 +1,5 @@
 #include "converter.h"
+#include <sstream>
 #include <stdexcept>
 #include <iostream>
 
@@ -6,6 +7,7 @@ using std::cout;
 using std::cerr;
 using std::endl;
 using std::exception;
+using std::stringstream;
 
 Converter::Converter(const string& dict_file) {
   cout << "Initializing converter with " << dict_file << endl;
@@ -24,7 +26,7 @@ Converter::Converter(const string& dict_file) {
 
 Phrase Converter::ToIndex(const string& sentence) const {
   Phrase indices;
-  std::stringstream sstr(sentence);
+  stringstream sstr(sentence);
   string word;
   while(sstr >> word)
     try {
@@ -37,7 +39,7 @@ Phrase Converter::ToIndex(const string& sentence) const {
 
 string Converter::ToSentence(const Phrase& indices) const {
   string sentence;
-  std::stringstream sstr(sentence);
+  stringstream sstr(sentence);
   for (size_t index : indices)
     sstr << words_[index - 1] << " ";
   return sstr.str();

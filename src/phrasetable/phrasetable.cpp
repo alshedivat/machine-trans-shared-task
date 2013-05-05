@@ -1,3 +1,4 @@
+#include <cctype>
 #include <cstdio>
 #include <algorithm>
 #include <iostream>
@@ -9,6 +10,7 @@
 using std::cout;
 using std::unordered_map;
 using std::make_pair;
+using std::min;
 using std::pair;
 using std::runtime_error;
 using std::endl;
@@ -19,6 +21,7 @@ PhraseTable PhraseTableLoader::load_phrase_table(const string& path,
   PhraseTable phrase_table;
   FILE* file = fopen(path.c_str(), "r");
   Phrase prev_fr_phrase;
+  vector<Translation> translations;
   // skip first line with headers
   int read_symbol = fgetc(file);
   while (read_symbol != '\n') {
@@ -41,20 +44,16 @@ PhraseTable PhraseTableLoader::load_phrase_table(const string& path,
     if (!EqualPhrases(fr_phrase, prev_fr_phrase)) {
       // sort and remain only top translations
       CompareTranslations compare_translations;
-      sort(phrase_table[prev_fr_phrase].begin(),
-           phrase_table[prev_fr_phrase].end(),
-           compare_translations);
-      if (phrase_table[prev_fr_phrase].size() > best_trans_num) {
-        phrase_table[prev_fr_phrase].erase(
-            phrase_table[prev_fr_phrase].begin() + best_trans_num,
-            phrase_table[prev_fr_phrase].end());
+      sort(translations.begin(), translations.end(), compare_translations);
+      phrase_table[prev_fr_phrase] = vector<Translation>();
+      for (size_t index = 0; index < min(translations.size(), best_trans_num);
+           ++index) {
+        phrase_table[prev_fr_phrase].push_back(translations[index]);
       }
+      translations.clear();
+      prev_fr_phrase = fr_phrase;
     }
-    Translation translation(en_phrase, probability);
-    pair<unordered_map<Phrase, vector<Translation> >::iterator, bool> result =
-        phrase_table.insert(make_pair(fr_phrase, vector<Translation>()));
-    result.first->second.push_back(Translation(en_phrase, probability));
-    prev_fr_phrase = fr_phrase;
+    translations.push_back(Translation(en_phrase, probability));
   }
   cout << "Phrase table loaded" << endl;
   return phrase_table;
@@ -79,6 +78,7 @@ void PhraseTableLoader::SkipDelimiter(FILE* file, int& read_symbol) const {
   while (read_symbol == '|') {
     read_symbol = fgetc(file);
   }
+  read_symbol = fgetc(file);
 }
 
 double PhraseTableLoader::ExtractProbability(FILE* file,

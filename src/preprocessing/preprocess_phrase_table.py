@@ -22,5 +22,5 @@ if __name__ == "__main__":
             for en_word in en_phrase.split():
                 print en_vcb[en_word],
             print "|||",
-            print probabilities.split()[2]
+            print probabilities.split()[0]
 

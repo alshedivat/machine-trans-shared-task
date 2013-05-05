@@ -129,7 +129,7 @@ vector<vector<double> > Decoder::computeFutureCosts(
       Phrase phrase_part(original_sentence.begin() + start,
                          original_sentence.begin() + end);
       if (phraseInPhraseTable(phrase_part)) {
-	Translation tr = getMostProbableTranslation(phrase_part);
+	      Translation tr = getMostProbableTranslation(phrase_part);
         future_costs[start][end] =
             log(tr.prob) +
             language_model_->get_probability(tr.dest);
