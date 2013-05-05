@@ -2,11 +2,13 @@
 #include <stdexcept>
 #include <iostream>
 
+using std::cout;
 using std::cerr;
 using std::endl;
 using std::exception;
 
 Converter::Converter(const string& dict_file) {
+  cout << "Initializing converter with " << dict_file << endl;
   std::ifstream input_vcb(dict_file.c_str());
   string input_line;
   while(std::getline(input_vcb, input_line)) {
@@ -17,6 +19,7 @@ Converter::Converter(const string& dict_file) {
     words_.push_back(word);
     dict_[word] = index;
   }
+  cout << "Converter initialized" << endl;
 }
 
 Phrase Converter::ToIndex(const string& sentence) const {

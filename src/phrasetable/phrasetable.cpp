@@ -1,11 +1,16 @@
 
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include "phrasetable.h"
 #include <iostream>
 
+using std::cout;
+using std::endl;
+
 PhraseTable load_phrase_table(const string& path, size_t best_trans_num) {
+  cout << "Loading phrase table" << endl;
   PhraseTable phrase_table;
   std::ifstream phrase_table_file(path.c_str());
   string line;
@@ -15,7 +20,7 @@ PhraseTable load_phrase_table(const string& path, size_t best_trans_num) {
   while(std::getline(phrase_table_file, line)) {
     ++index;
     if (index % 5000000 == 0) {
-      std::cout << "Read " << index << " lines" << std::endl;
+      cout << "Read " << index << " lines" << endl;
     }
     Phrase en_phrase, fr_phrase;
     int number_phrase = 0;
@@ -52,6 +57,6 @@ PhraseTable load_phrase_table(const string& path, size_t best_trans_num) {
     phrase_table[fr_phrase].push_back(trans);
     prev_fr_phrase = fr_phrase;
   }
-  std::cout << "Completed" << std::endl;
+  cout << "Phrase table loaded" << endl;
   return phrase_table;
 }

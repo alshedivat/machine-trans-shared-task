@@ -33,6 +33,7 @@ LanguageModel loadLanguageModel(const Converter& converter,
     }
     string sentence;
     vector<Phrase> sentences;
+    cout << "Reading english corpus" << endl;
     while (getline(file, sentence)) {
         sentences.push_back(converter.ToIndex(sentence));
     }
@@ -66,6 +67,7 @@ int main(int argc, char** argv) {
         }
         string sentence;
         while (getline(input_file, sentence)) {
+            cout << "Translating " << sentence << endl;
             Phrase french_phrase = french_converter.ToIndex(sentence);
             Phrase english_phrase = decoder.decode(french_phrase);
             output_file << english_converter.ToSentence(english_phrase) << endl;
