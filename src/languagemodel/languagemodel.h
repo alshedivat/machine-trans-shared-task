@@ -22,9 +22,11 @@ public:
 	{
 	}
 
-	double get_probability(const Phrase& phrase) const {
-		if (phrase.size() < 1)
+	double get_probability(const Phrase& sentence) const {
+		if (sentence.size() < 1)
 			throw std::runtime_error("wrong phrase length");
+		Phrase phrase(N_ - 1, 0);
+		phrase.insert(phrase.end(), sentence.begin(), sentence.end());
 		double language_model_cost = 0;
                 for (size_t index = 0; index + 3 <= phrase.size(); ++index) {
              		Phrase subphrase = Phrase(phrase.begin() + index, phrase.begin() + index + 3);

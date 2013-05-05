@@ -16,7 +16,6 @@ using std::sort;
 using std::max;
 
 Phrase Decoder::decode(const Phrase & original_sentence) const {
-  cout << "Staring decoding phrase" << endl;
   vector<vector<Hypothesis> > hypothesis_stacks(original_sentence.size() + 1);
   vector<vector<double> > future_costs = computeFutureCosts(original_sentence);
   Hypothesis zero_hypothesis(original_sentence);
@@ -90,14 +89,9 @@ Hypothesis Decoder::CreateNewHypothesis(
   new_hypothesis.sentence.insert(new_hypothesis.sentence.end(),
                                  translated_phrase.begin(),
                                  translated_phrase.end());
-  Phrase subsentence = Phrase(new_hypothesis.sentence.begin() +
-                              max(static_cast<int>(current.sentence.size()) + 1 - 
-				  static_cast<int>(language_model_->get_length()),
-                                  static_cast<int>(0)),
-                              new_hypothesis.sentence.end());
 
+  new_hypothesis.language_model_cost = language_model_->get_probability(new_hypothesis.sentence);
   new_hypothesis.cost = current.cost +
-      language_model_->get_probability(subsentence) +
       alignment_model_->get_probability(static_cast<int>(phrase_begin) -
                                         current.last_end) +
       phrase_table_->at(phrase)[phrase_index].prob;

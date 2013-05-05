@@ -12,7 +12,7 @@ using std::vector;
 struct Hypothesis {
   Phrase sentence;
   vector<bool> used_words;
-  double cost, future_cost;
+  double cost, future_cost, language_model_cost;
   int last_end;
 
   Hypothesis()
@@ -20,6 +20,7 @@ struct Hypothesis {
     , used_words(0)
     , cost(0)
     , future_cost(0)
+    , language_model_cost(0)
     , last_end(0) {}
 
   Hypothesis(const Phrase & original_sentence)
@@ -27,14 +28,15 @@ struct Hypothesis {
     , used_words(original_sentence.size())
     , cost(0)
     , future_cost(0)
+    , language_model_cost(0)
     , last_end(0) {}
 
   bool operator < (const Hypothesis & left) const {
-    return cost + future_cost < left.cost + left.future_cost;
+    return cost + language_model_cost + future_cost < left.cost + left.language_model_cost + left.future_cost;
   }
 
   double total_cost() const {
-    return cost + future_cost;
+    return cost + future_cost + language_model_cost;
   }
 };
 

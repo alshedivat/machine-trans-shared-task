@@ -35,10 +35,13 @@ LanguageModel loadLanguageModel(const Converter& converter,
     vector<Phrase> sentences;
     cout << "Reading english corpus" << endl;
     while (getline(file, sentence)) {
-        sentences.push_back(converter.ToIndex(sentence));
+	Phrase phrase(2, 0);
+	Phrase sent = converter.ToIndex(sentence);
+	phrase.insert(phrase.end(), sent.begin(), sent.end());
+        sentences.push_back(phrase);
     }
     file.close();
-    return learn_ngram_language_model(sentences, converter.DictSize());
+    return learn_ngram_language_model(sentences, converter.DictSize(), 3);
 }
 
 int main(int argc, char** argv) {
@@ -56,7 +59,7 @@ int main(int argc, char** argv) {
         AlignmentModel alignment_model;
         PhraseTable phrase_table = load_phrase_table(
             program_options_parser.phrase_table_path(), 5);
-        Decoder decoder(&language_model, &alignment_model, &phrase_table, 1000, 5000);
+        Decoder decoder(&language_model, &alignment_model, &phrase_table, 1000, 500);
 
         ifstream input_file(program_options_parser.input_file_path());
         if (!input_file) {
