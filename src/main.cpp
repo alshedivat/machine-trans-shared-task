@@ -54,10 +54,12 @@ int main(int argc, char** argv) {
             english_converter,
             program_options_parser.language_model_path(),
             program_options_parser.english_sentences_path());
+
         AlignmentModel alignment_model(0.01);
-        PhraseTable phrase_table = load_phrase_table(
+        PhraseTableLoader phrase_table_loader;
+        PhraseTable phrase_table = phrase_table_loader.load_phrase_table(
             program_options_parser.phrase_table_path(), 5);
-        Decoder decoder(&language_model, &alignment_model, &phrase_table, 10, 100);
+        Decoder decoder(&language_model, &alignment_model, &phrase_table, 100, 100);
 
         ifstream input_file(program_options_parser.input_file_path());
         if (!input_file) {

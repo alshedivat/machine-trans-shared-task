@@ -1,63 +1,105 @@
-
+#include <cstdio>
 #include <algorithm>
-#include <fstream>
 #include <iostream>
-#include <sstream>
+#include <stdexcept>
+#include <utility>
+#include <unordered_map>
 #include "phrasetable.h"
-#include <iostream>
 
 using std::cout;
+using std::unordered_map;
+using std::make_pair;
+using std::pair;
+using std::runtime_error;
 using std::endl;
 
-PhraseTable load_phrase_table(const string& path, size_t best_trans_num) {
+PhraseTable PhraseTableLoader::load_phrase_table(const string& path,
+                                                 size_t best_trans_num) const {
   cout << "Loading phrase table" << endl;
   PhraseTable phrase_table;
-  std::ifstream phrase_table_file(path.c_str());
-  string line;
+  FILE* file = fopen(path.c_str(), "r");
   Phrase prev_fr_phrase;
-  std::getline(phrase_table_file, line); // skip first line with headers
-  int index = 0;
-  while(std::getline(phrase_table_file, line)) {
-    ++index;
-    if (index % 5000000 == 0) {
-      cout << "Read " << index << " lines" << endl;
+  // skip first line with headers
+  int read_symbol = fgetc(file);
+  while (read_symbol != '\n') {
+    read_symbol = fgetc(file);
+  }
+  int line_number = 0;
+  while(read_symbol != EOF) {
+    ++line_number;
+    if (line_number % 5000000 == 0) {
+      cout << "Read " << line_number << " lines" << endl;
     }
-    Phrase en_phrase, fr_phrase;
-    int number_phrase = 0;
-    std::stringstream sstr(line);
-    string token;
-    while(number_phrase < 2) {
-      sstr >> token;
-      if (token == "|||")
-        number_phrase++;
-      else
-        if (number_phrase == 0)
-          fr_phrase.push_back(atoi(token.c_str()));
-        else
-          en_phrase.push_back(atoi(token.c_str()));
-    }
-    if (prev_fr_phrase.size() == 0)
+    Phrase fr_phrase = ExtractPhrase(file, read_symbol);
+    SkipDelimiter(file, read_symbol);
+    Phrase en_phrase = ExtractPhrase(file, read_symbol);
+    SkipDelimiter(file, read_symbol);
+    double probability = ExtractProbability(file, read_symbol);
+    if (prev_fr_phrase.empty()) {
       prev_fr_phrase = fr_phrase;
-    if (fr_phrase != prev_fr_phrase) {
-      std::sort(phrase_table[prev_fr_phrase].begin(),
-                phrase_table[prev_fr_phrase].end(),
-                pred());
+    }
+    if (!EqualPhrases(fr_phrase, prev_fr_phrase)) {
+      // sort and remain only top translations
+      CompareTranslations compare_translations;
+      sort(phrase_table[prev_fr_phrase].begin(),
+           phrase_table[prev_fr_phrase].end(),
+           compare_translations);
       if (phrase_table[prev_fr_phrase].size() > best_trans_num) {
-        auto start = phrase_table[prev_fr_phrase].begin() + best_trans_num;
-        auto end   = phrase_table[prev_fr_phrase].end();
-        phrase_table[prev_fr_phrase].erase(start, end);
-        phrase_table[prev_fr_phrase].shrink_to_fit();
+        phrase_table[prev_fr_phrase].erase(
+            phrase_table[prev_fr_phrase].begin() + best_trans_num,
+            phrase_table[prev_fr_phrase].end());
       }
     }
-
-    sstr >> token;
-    double prob = atof(token.c_str());
-    Translation trans(en_phrase, prob);
-    if (!phrase_table.count(fr_phrase))
-      phrase_table[fr_phrase] = vector<Translation>();
-    phrase_table[fr_phrase].push_back(trans);
+    Translation translation(en_phrase, probability);
+    pair<unordered_map<Phrase, vector<Translation> >::iterator, bool> result =
+        phrase_table.insert(make_pair(fr_phrase, vector<Translation>()));
+    result.first->second.push_back(Translation(en_phrase, probability));
     prev_fr_phrase = fr_phrase;
   }
   cout << "Phrase table loaded" << endl;
   return phrase_table;
+}
+
+Phrase PhraseTableLoader::ExtractPhrase(FILE* file, int& read_symbol) const {
+  Phrase phrase;
+  while ((read_symbol = fgetc(file)) != '|') {
+    string number;
+    while (isdigit(read_symbol)) {
+      number.push_back(read_symbol);
+      read_symbol = fgetc(file);
+    }
+    int phrase_element = atoi(number.data());
+    phrase.push_back(phrase_element);
+    read_symbol = fgetc(file); // skip space
+  }
+  return phrase;
+}
+
+void PhraseTableLoader::SkipDelimiter(FILE* file, int& read_symbol) const {
+  while ((read_symbol = fgetc(file)) == '|') {
+  }
+  read_symbol = fgetc(file); // skip space
+}
+
+double PhraseTableLoader::ExtractProbability(FILE* file,
+                                             int& read_symbol) const {
+  double probability;
+  if (fscanf(file, "%lg", &probability) != 1) {
+    throw runtime_error("Failed to read phrase table");
+  }
+  read_symbol = fgetc(file); // skip '\n'
+  return probability;
+}
+
+bool PhraseTableLoader::EqualPhrases(const Phrase& first,
+                                     const Phrase& second) const {
+  if (first.size() != second.size()) {
+    return false;
+  }
+  for (size_t index = 0; index < first.size(); ++index) {
+    if (first[index] != second[index]) {
+      return false;
+    }
+  }
+  return true;
 }
