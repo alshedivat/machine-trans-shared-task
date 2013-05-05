@@ -118,7 +118,6 @@ NgramLanguageModel learn_ngram_language_model(
 	NgramLanguageModel::Phrase2Stat statContext;
 	for(const Phrase& sentance : sentences) {
 		Phrase phrase;
-		stat[phrase]++;
 		for(Word word : sentance) {
 			if (phrase.size() < N) {
 				statContext[phrase]++;
