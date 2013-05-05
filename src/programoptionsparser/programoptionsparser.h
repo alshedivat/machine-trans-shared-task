@@ -6,7 +6,9 @@ class ProgramOptionsParser {
    : english_sentences_path_(""),
      english_vocabulary_path_(""),
      french_vocabulary_path_(""),
+     input_file_path_(""),
      language_model_path_(""),
+     output_file_path_(""),
      phrase_table_path_("") {
   }
 
@@ -24,8 +26,16 @@ class ProgramOptionsParser {
     return french_vocabulary_path_;
   }
 
+  std::string input_file_path() {
+    return input_file_path_;
+  }
+
   std::string language_model_path() {
     return language_model_path_;
+  }
+
+  std::string output_file_path() {
+    return output_file_path_;
   }
 
   std::string phrase_table_path() {
@@ -36,6 +46,8 @@ class ProgramOptionsParser {
   std::string english_sentences_path_;
   std::string english_vocabulary_path_;
   std::string french_vocabulary_path_;
+  std::string input_file_path_;
   std::string language_model_path_;
+  std::string output_file_path_;
   std::string phrase_table_path_;
 };
