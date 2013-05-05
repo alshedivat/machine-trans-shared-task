@@ -3,12 +3,19 @@
 
 #include <unordered_map>
 #include <fstream>
+#include <iostream>
 #include <stdexcept>
 
 #include "languagemodel.h"
 
+using std::cout;
+using std::endl;
+
 template< class Map >
-static const typename Map::mapped_type& mapAtOrDefault(const Map& map, const typename Map::key_type& key, const typename Map::mapped_type& defaultResult) {
+static const typename Map::mapped_type& mapAtOrDefault(
+    const Map& map,
+    const typename Map::key_type& key,
+    const typename Map::mapped_type& defaultResult) {
 	auto iterator = map.find(key);
 	if (iterator == map.end())
 		return defaultResult;
@@ -29,7 +36,8 @@ static void write(const T& t, FILE* output) {
 	fwrite(&t, sizeof(t), 1, output);
 }
 
-static void writePhraseMap(const NgramLanguageModel::Phrase2Stat& map, FILE* output) {
+static void writePhraseMap(const NgramLanguageModel::Phrase2Stat& map,
+                           FILE* output) {
 	write(map.size(), output);
 	for(auto& phraseStat : map) {
 		auto& phrase = phraseStat.first;
@@ -65,6 +73,7 @@ static NgramLanguageModel::Phrase2Stat readPhraseMap(FILE* input) {
 }
 
 void NgramLanguageModel::save(const std::string& path) const {
+  cout << "Saving language model" << endl;
 	FILE* output = fopen(path.c_str(), "wb");
 	write(N_, output);
 	write(alpha_, output);
@@ -84,6 +93,7 @@ bool NgramLanguageModel::operator ==(const NgramLanguageModel& other) const {
 
 
 NgramLanguageModel load_ngram_language_model(const std::string& path) {
+  cout << "Loading langugage model" << endl;
 	FILE* input = fopen(path.c_str(), "rb");
 	size_t N = read< size_t >(input);
 	double alpha = read< double >(input);
@@ -91,11 +101,18 @@ NgramLanguageModel load_ngram_language_model(const std::string& path) {
 	auto seenPhrases = readPhraseMap(input);
 	auto seenContext = readPhraseMap(input);
 	fclose(input);
-	return NgramLanguageModel(std::move(seenPhrases), std::move(seenContext), N, alpha, nu);
+  cout << "Language model loaded" << endl;
+	return NgramLanguageModel(std::move(seenPhrases), std::move(seenContext), N,
+                            alpha, nu);
 }
 
 
-NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentences, const int wordsCount, const size_t N, const double alpha) {
+NgramLanguageModel learn_ngram_language_model(
+    const std::vector< Phrase >& sentences,
+    const int wordsCount,
+    const size_t N,
+    const double alpha) {
+  cout << "Learning language model" << endl;
 	const double nu = wordsCount;
 	NgramLanguageModel::Phrase2Stat stat;
 	NgramLanguageModel::Phrase2Stat statContext;
@@ -114,6 +131,7 @@ NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sente
 			stat[phrase]++;
 		}
 	}
+  cout << "Language model learnt" << endl;
 	return NgramLanguageModel(std::move(stat), std::move(statContext), N, alpha, nu);
 }
 

@@ -1,13 +1,17 @@
 #include "programoptionsparser.h"
 #include <boost/program_options.hpp>
 #include <fstream>
+#include <iostream>
 #include <string>
 
 using namespace boost::program_options;
+using std::cout;
+using std::endl;
 using std::ifstream;
 using std::string;
 
 void ProgramOptionsParser::Parse(int argc, char** argv) {
+  cout << "Parsing program options" << endl;
   variables_map program_options_storage;
   string configuration_filename = "machine_translator.conf";
   options_description program_options_description("Options for program");
