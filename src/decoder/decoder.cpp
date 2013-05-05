@@ -79,7 +79,7 @@ Hypothesis Decoder::CreateNewHypothesis(size_t phrase_begin, size_t phrase_end, 
                                 new_hypothesis.sentence.end());
     new_hypothesis.cost = current.cost +
         language_model_->get_probability(subsentence) +
-        alignment_model_->get_probability(static_cast<int>(phrase_begin) - new_hypothesis.last_end) +
+        alignment_model_->get_probability(static_cast<int>(phrase_begin) - current.last_end) +
         phrase_table_->at(phrase)[phrase_index].prob;
     new_hypothesis.future_cost = 0;
     size_t first = 0;
