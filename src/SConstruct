@@ -1,8 +1,10 @@
 env = Environment(CPPXX='g++-4.7', CPPFLAGS='-std=c++11 -Wall -Wextra -pedantic -pedantic-errors -s -Ofast')
+env.Append(LIBS=['boost_system', 'boost_program_options'])
 Default(env.Program('machine_translator',
     ['main.cpp',
      'decoder/decoder.cpp',
      'languagemodel/languagemodel.cpp',
      'converter/converter.cpp',
      'phrasetable/phrasetable.cpp',
-	 'alignmentmodel/alignmentmodel.cpp']))
+	 'alignmentmodel/alignmentmodel.cpp',
+	 'programoptionsparser/programoptionsparser.cpp']))
