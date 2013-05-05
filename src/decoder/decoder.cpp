@@ -23,7 +23,6 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
   hypothesis_stacks.front().push_back(original_sentence);
   for (size_t stack_index = 0; stack_index <= original_sentence.size();
        ++stack_index) {
-    cout << "Working with stack #" << stack_index << endl;
     EraseBadHypotheses(&hypothesis_stacks[stack_index]);
     for (size_t hypothesis_index = 0;
          hypothesis_index < hypothesis_stacks[stack_index].size();
@@ -64,7 +63,6 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
 }
 
 void Decoder::EraseBadHypotheses(vector<Hypothesis> * hypothesis_vector) const {
-  cout << "Erasing bad hypothesis" << endl;
   sort(hypothesis_vector->begin(), hypothesis_vector->end());
   reverse(hypothesis_vector->begin(), hypothesis_vector->end());
   vector<Hypothesis>::iterator iter = hypothesis_vector->begin();
@@ -85,7 +83,6 @@ Hypothesis Decoder::CreateNewHypothesis(
     const vector<bool>& new_used_words,
     const Hypothesis& current,
     const vector<vector<double> >& future_costs) const {
-  cout << "Creating new hypothesis" << endl;
   Hypothesis new_hypothesis = current;
   new_hypothesis.last_end = phrase_end;
   new_hypothesis.used_words = new_used_words;
@@ -129,7 +126,6 @@ Hypothesis Decoder::CreateNewHypothesis(
 
 vector<vector<double> > Decoder::computeFutureCosts(
     const Phrase & original_sentence) const {
-  cout << "Computing future costs" << endl;
   vector<vector<double> > future_costs(
       original_sentence.size(),
       vector<double>(original_sentence.size()));
