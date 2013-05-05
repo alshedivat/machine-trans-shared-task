@@ -1,23 +1,32 @@
+
 #include <algorithm>
 #include <fstream>
 #include <sstream>
 #include "phrasetable.h"
+#include <iostream>
 
 PhraseTable load_phrase_table(const string& path, size_t best_trans_num) {
   PhraseTable phrase_table;
   std::ifstream phrase_table_file(path.c_str());
   string line;
   Phrase prev_fr_phrase;
+  std::getline(phrase_table_file, line); // skip first line with headers
+  int index = 0;
   while(std::getline(phrase_table_file, line)) {
+    ++index;
+    if (index % 5000000 == 0) {
+      std::cout << "Read " << index << " lines" << std::endl;
+    }
     Phrase en_phrase, fr_phrase;
-    bool first_phrase = true;
+    int number_phrase = 0;
     std::stringstream sstr(line);
     string token;
-    while(sstr >> token) {
+    while(number_phrase < 2) {
+      sstr >> token;
       if (token == "|||")
-        first_phrase = false;
+        number_phrase++;
       else
-        if (first_phrase)
+        if (number_phrase == 0)
           fr_phrase.push_back(atoi(token.c_str()));
         else
           en_phrase.push_back(atoi(token.c_str()));
@@ -35,12 +44,14 @@ PhraseTable load_phrase_table(const string& path, size_t best_trans_num) {
       }
     }
 
+    sstr >> token;
     double prob = atof(token.c_str());
     Translation trans(en_phrase, prob);
     if (!phrase_table.count(fr_phrase))
       phrase_table[fr_phrase] = vector<Translation>();
     phrase_table[fr_phrase].push_back(trans);
+    prev_fr_phrase = fr_phrase;
   }
-
+  std::cout << "Completed" << std::endl;
   return phrase_table;
 }

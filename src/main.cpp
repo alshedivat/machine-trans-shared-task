@@ -44,8 +44,9 @@ int main() {
         LanguageModel language_model = loadLanguageModel(english_converter);
         cout << "Load language model" << endl;
         AlignmentModel alignment_model;
-        PhraseTable phrase_table = load_phrase_table(PHRASE_TABLE_PATH);
-        Decoder decoder(language_model, alignment_model, phrase_table);
+        cout << "Alignment model created" << endl;
+        PhraseTable phrase_table = load_phrase_table(PHRASE_TABLE_PATH, 5);
+        Decoder decoder(&language_model, &alignment_model, &phrase_table, 100, 100);
         cout << "Started translating" << endl;
         string sentence;
         while (getline(cin, sentence)) {

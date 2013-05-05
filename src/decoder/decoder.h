@@ -40,9 +40,9 @@ struct Hypothesis {
 
 class Decoder {
  public:
-  Decoder(const LanguageModel & language_model,
-          const AlignmentModel & alignment_model,
-          const PhraseTable & phrase_table,
+  Decoder(LanguageModel * language_model,
+          AlignmentModel * alignment_model,
+          PhraseTable * phrase_table,
           int difference = 100, int quantity = 2)
     : difference_(difference)
     , quantity_(quantity)
@@ -63,9 +63,9 @@ class Decoder {
                                  const vector<vector<double> >& future_costs) const;
   int difference_;
   int quantity_;
-  LanguageModel language_model_;
-  AlignmentModel alignment_model_;
-  PhraseTable phrase_table_;
+  LanguageModel * language_model_;
+  AlignmentModel * alignment_model_;
+  PhraseTable * phrase_table_;
 };
 
 #endif // DECODER_DECODER_H
