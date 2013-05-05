@@ -136,7 +136,7 @@ vector<vector<double> > Decoder::computeFutureCosts(
       }
       for (size_t i = start; i < end; ++i) {
         double new_cost = future_costs[start][i] + future_costs[i + 1][end];
-        future_costs[start][end] = min(future_costs[start][end], new_cost);
+        future_costs[start][end] = max(future_costs[start][end], new_cost);
       }
     }
   }
