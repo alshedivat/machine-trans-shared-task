@@ -39,7 +39,10 @@ LanguageModel loadLanguageModel(const Converter& converter,
 		sentences.push_back(sent);
 	}
 	file.close();
-    return learn_ngram_language_model(sentences, converter.DictSize(), 3);
+    LanguageModel language_model =
+        learn_ngram_language_model(sentences, converter.DictSize(), 3);
+    language_model.save(language_model_path);
+    return language_model;
 }
 
 int main(int argc, char** argv) {
