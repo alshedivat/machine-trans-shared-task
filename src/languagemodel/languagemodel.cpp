@@ -22,6 +22,23 @@ static const typename Map::mapped_type& mapAtOrDefault(
 	return iterator->second;
 }
 
+double NgramLanguageModel::get_probability(const Phrase& sentence) const {
+	if (sentence.size() < 1)
+		throw std::runtime_error("wrong phrase length");
+	Phrase phrase;
+	phrase.reserve(get_length());
+	double language_model_cost = 0;
+	for (Word word : sentence) {
+		phrase.push_back(word);
+		if (phrase.size() > get_length())
+			phrase.erase(phrase.begin());
+		double num = get_count(phrase);
+		double denum = get_context_count(phrase);
+		language_model_cost += log(num + alpha_) - log(denum + nu_ * alpha_);
+	}
+	return language_model_cost;
+}
+
 double NgramLanguageModel::get_count(const Phrase& phrase) const {
 	return mapAtOrDefault(seenPhrases_, phrase, 0);
 }
@@ -105,7 +122,6 @@ NgramLanguageModel load_ngram_language_model(const std::string& path) {
 	return NgramLanguageModel(std::move(seenPhrases), std::move(seenContext), N,
                             alpha, nu);
 }
-
 
 NgramLanguageModel learn_ngram_language_model(
     const std::vector< Phrase >& sentences,

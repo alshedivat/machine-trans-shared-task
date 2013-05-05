@@ -23,21 +23,7 @@ public:
 	}
 
 	/// returns probability of whole sentence
-	double get_probability(const Phrase& sentence) const {
-		if (sentence.size() < 1)
-			throw std::runtime_error("wrong phrase length");
-		Phrase phrase;
-		double language_model_cost = 0;
-		for (Word word : sentence) {
-			phrase.push_back(word);
-			if (phrase.size() > get_length())
-				phrase.erase(phrase.begin());
-			double num = get_count(phrase);
-			double denum = get_context_count(phrase);
-			language_model_cost += log(num + alpha_) - log(denum + nu_ * alpha_);
-		}
-		return language_model_cost;
-	}
+	double get_probability(const Phrase& sentence) const;
 	
 	size_t get_length() const {
 		return N_;
