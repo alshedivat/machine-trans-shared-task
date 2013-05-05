@@ -9,7 +9,7 @@ class AlignmentModel {
   }
 
   double get_probability(int distance) const {
-    return log(pow(alpha_, std::abs(distance)));
+    return log(pow(alpha_, std::fabs(static_cast<double>(distance))));
   }
 
  private:
