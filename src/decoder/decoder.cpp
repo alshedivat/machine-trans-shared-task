@@ -5,6 +5,7 @@
 #include <limits>
 #include <vector>
 #include <algorithm>
+#include <numeric>
 
 using std::accumulate;
 using std::cout;
