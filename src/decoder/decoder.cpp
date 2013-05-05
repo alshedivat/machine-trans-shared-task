@@ -94,8 +94,8 @@ Hypothesis Decoder::CreateNewHypothesis(
   new_hypothesis.language_model_cost = language_model_->get_probability(new_hypothesis.sentence);
   new_hypothesis.cost = current.cost +
       alignment_model_->get_probability(static_cast<int>(phrase_begin) -
-                                        current.last_end) +
-      phrase_table_->at(phrase)[phrase_index].prob;
+                                        static_cast<int>(current.last_end)) +
+      log(phrase_table_->at(phrase)[phrase_index].prob);
   new_hypothesis.future_cost = 0;
   size_t first = 0;
   size_t last = 0;
@@ -129,9 +129,10 @@ vector<vector<double> > Decoder::computeFutureCosts(
       Phrase phrase_part(original_sentence.begin() + start,
                          original_sentence.begin() + end);
       if (phraseInPhraseTable(phrase_part)) {
+	Translation tr = getMostProbableTranslation(phrase_part);
         future_costs[start][end] =
-            getMostProbableCost(phrase_part) +
-            language_model_->get_probability(phrase_part);
+            log(tr.prob) +
+            language_model_->get_probability(tr.dest);
       }
       for (size_t i = start; i < end; ++i) {
         double new_cost = future_costs[start][i] + future_costs[i + 1][end];
@@ -146,6 +147,6 @@ bool Decoder::phraseInPhraseTable(const Phrase& phrase) const {
     return phrase_table_->find(phrase) != phrase_table_->end();
 }
 
-double Decoder::getMostProbableCost(const Phrase& phrase) const {
-    return log(phrase_table_->at(phrase).begin()->prob);
+Translation Decoder::getMostProbableTranslation(const Phrase& phrase) const {
+    return *phrase_table_->at(phrase).begin();
 }
