@@ -67,7 +67,11 @@ Phrase Decoder::decode(const Phrase & original_sentence,
       }
     }
   }
-  return hypothesis_stacks[original_sentence.size()][0].sentence;
+  size_t index = original_sentence.size();
+  while (hypothesis_stacks[index].size() == 0) {
+    --index;
+  }
+  return hypothesis_stacks[index][0].sentence;
 }
 
 void Decoder::EraseBadHypotheses(vector<Hypothesis> * hypothesis_vector) const {

@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
         PhraseTableLoader phrase_table_loader;
         PhraseTable phrase_table = phrase_table_loader.load_phrase_table(
             program_options_parser.phrase_table_path(), 5);
-        Decoder decoder(&language_model, &alignment_model, &phrase_table, 10, 50);
+        Decoder decoder(&language_model, &alignment_model, &phrase_table, 100, 300);
 
         ifstream input_file(program_options_parser.input_file_path());
         if (!input_file) {
@@ -82,11 +82,9 @@ int main(int argc, char** argv) {
                 time(&curr);
                 cout << "Translated " << index << " sentences in " <<
                      difftime(curr, start) << endl;
-                time(&start);
-
             }
             Phrase french_phrase = french_converter.ToIndex(sentence);
-            Phrase english_phrase = decoder.decode(french_phrase);
+            Phrase english_phrase = decoder.decode(french_phrase, 6, 6);
             output_file << english_converter.ToSentence(english_phrase) << endl;
             ++index;
         }
