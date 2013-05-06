@@ -4,6 +4,7 @@
 #include "../decoder/decoder.h"
 #include "../languagemodel/languagemodel.h"
 #include "../phrasetable/phrasetable.h"
+#include <time.h>
 #include <boost/thread.hpp>
 #include <boost/threadpool.hpp>
 #include <fstream>
@@ -48,10 +49,14 @@ void MachineTranslator::Translate(const string& input_filename,
   if (!file) {
     throw runtime_error("Failed to open file for writing results");
   }
+  time_t start, curr;
+  time(&start);
   TranslateInThreadPool(input_filename);
   for (size_t index = 0; index < translations_.size(); ++index) {
     file << translations_[index] << endl;
   }
+  time(&curr);
+  cout << "Finished translating in " << difftime(curr, start) << endl;
   file.close();
 }
 
