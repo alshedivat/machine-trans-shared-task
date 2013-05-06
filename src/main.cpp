@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
             if (index % 10 == 0) {
                 time(&curr);
                 cout << "Translated " << index << " sentences in " <<
-                        std::cout << difftime(curr, start) << endl;
+                     difftime(curr, start) << endl;
                 time(&start);
 
             }
