@@ -52,7 +52,9 @@ class Decoder {
     , alignment_model_(alignment_model)
     , phrase_table_(phrase_table) {}
 
-  Phrase decode(const Phrase & original_sentence, size_t max_phrase_length = 6) const;
+  Phrase decode(const Phrase & original_sentence,
+                size_t max_phrase_length = 5,
+                size_t max_swap_distance = 5) const;
 
  private:
   vector<vector<double> > computeFutureCosts(const Phrase & original_sentence) const;
