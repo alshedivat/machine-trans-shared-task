@@ -4,10 +4,10 @@ Machine Translation Shared Task
 Machine translation shared task competition solution.
 
 ## TODO
-1. Implement logging
-2. Do code refactoring: add comments to make code understandable for everybody, split huge functions.
+1. ~~Implement logging~~
+2. ~~Do code refactoring: add comments to make code understandable for everybody, split huge functions.~~
 3. Write a few simple tests :)
-4. Implement metrics (NIST BLEU)
+4. ~~Implement metrics (NIST BLEU)~~
 5. Make it work!
 
 ## Rules (Rus)
