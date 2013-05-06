@@ -82,8 +82,6 @@ int main(int argc, char** argv) {
                 time(&curr);
                 cout << "Translated " << index << " sentences in " <<
                      difftime(curr, start) << endl;
-                time(&start);
-
             }
             Phrase french_phrase = french_converter.ToIndex(sentence);
             Phrase english_phrase = decoder.decode(french_phrase);
