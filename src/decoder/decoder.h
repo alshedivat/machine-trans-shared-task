@@ -1,6 +1,7 @@
 #ifndef DECODER_DECODER_H
 #define DECODER_DECODER_H
 
+#include <memory>
 #include <vector>
 
 #include "../phrasetable/phrasetable.h"
@@ -42,9 +43,9 @@ struct Hypothesis {
 
 class Decoder {
  public:
-  Decoder(LanguageModel * language_model,
-          AlignmentModel * alignment_model,
-          PhraseTable * phrase_table,
+  Decoder(std::shared_ptr<LanguageModel> language_model,
+          std::shared_ptr<AlignmentModel> alignment_model,
+          std::shared_ptr<PhraseTable> phrase_table,
           int difference = 100, int quantity = 2)
     : difference_(difference)
     , quantity_(quantity)
@@ -67,9 +68,9 @@ class Decoder {
                                  const vector<vector<double> >& future_costs) const;
   int difference_;
   int quantity_;
-  LanguageModel * language_model_;
-  AlignmentModel * alignment_model_;
-  PhraseTable * phrase_table_;
+  std::shared_ptr<LanguageModel> language_model_;
+  std::shared_ptr<AlignmentModel> alignment_model_;
+  std::shared_ptr<PhraseTable> phrase_table_;
 };
 
 #endif // DECODER_DECODER_H

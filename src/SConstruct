@@ -1,5 +1,5 @@
 env = Environment(CPPXX='g++-4.7', CPPFLAGS='-std=c++11 -Wall -Wextra -pedantic -pedantic-errors -Ofast --fast-math')
-env.Append(LIBS=['boost_system', 'boost_program_options'])
+env.Append(LIBS=['boost_system', 'boost_program_options', 'boost_thread', 'pthread'])
 Default(env.Program('machine_translator',
     ['main.cpp',
      'decoder/decoder.cpp',
@@ -7,4 +7,5 @@ Default(env.Program('machine_translator',
      'converter/converter.cpp',
      'phrasetable/phrasetable.cpp',
 	 'alignmentmodel/alignmentmodel.cpp',
-	 'programoptionsparser/programoptionsparser.cpp']))
+	 'programoptionsparser/programoptionsparser.cpp',
+	 'machinetranslator/machinetranslator.cpp']))

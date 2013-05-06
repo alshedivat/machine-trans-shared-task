@@ -12,6 +12,9 @@ public:
 
 	typedef std::unordered_map< Phrase, double > Phrase2Stat;
 
+	NgramLanguageModel() {
+	}
+
 	template< class T >
 	NgramLanguageModel(T&& map, T&& context, size_t N, double alpha, double nu)
 		: seenPhrases_(std::forward< T >(map))
