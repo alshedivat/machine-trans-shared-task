@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+#include <time.h>
 #include "alignmentmodel/alignmentmodel.h"
 #include "converter/converter.h"
 #include "decoder/decoder.h"
@@ -58,11 +59,11 @@ int main(int argc, char** argv) {
             program_options_parser.language_model_path(),
             program_options_parser.english_sentences_path());
 
-        AlignmentModel alignment_model(0.1);
+        AlignmentModel alignment_model(0.5);
         PhraseTableLoader phrase_table_loader;
         PhraseTable phrase_table = phrase_table_loader.load_phrase_table(
-            program_options_parser.phrase_table_path(), 4);
-        Decoder decoder(&language_model, &alignment_model, &phrase_table, 100, 200);
+            program_options_parser.phrase_table_path(), 5);
+        Decoder decoder(&language_model, &alignment_model, &phrase_table, 10, 50);
 
         ifstream input_file(program_options_parser.input_file_path());
         if (!input_file) {
@@ -73,11 +74,21 @@ int main(int argc, char** argv) {
             throw runtime_error("Failed to open output file");
         }
         string sentence;
+        int index = 0;
+        time_t curr, start;
+        time(&start);
         while (getline(input_file, sentence)) {
-            cout << "Translating " << sentence << endl;
+            if (index % 10 == 0) {
+                time(&curr);
+                cout << "Translated " << index << " sentences in " <<
+                        std::cout << difftime(curr, start) << endl;
+                time(&start);
+
+            }
             Phrase french_phrase = french_converter.ToIndex(sentence);
             Phrase english_phrase = decoder.decode(french_phrase);
             output_file << english_converter.ToSentence(english_phrase) << endl;
+            ++index;
         }
         input_file.close();
         output_file.close();

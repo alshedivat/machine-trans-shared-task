@@ -16,7 +16,7 @@ using std::vector;
 using std::sort;
 using std::max;
 
-Phrase Decoder::decode(const Phrase & original_sentence) const {
+Phrase Decoder::decode(const Phrase & original_sentence, size_t max_phrase_length) const {
   vector<vector<Hypothesis> > hypothesis_stacks(original_sentence.size() + 1);
   vector<vector<double> > future_costs = computeFutureCosts(original_sentence);
   Hypothesis zero_hypothesis(original_sentence);
@@ -31,7 +31,7 @@ Phrase Decoder::decode(const Phrase & original_sentence) const {
       for (size_t phrase_begin = 0; phrase_begin < original_sentence.size();
            ++phrase_begin) {
         for (size_t phrase_end = phrase_begin + 1;
-             phrase_end <= original_sentence.size();
+             phrase_end <= min(phrase_end + max_phrase_length, original_sentence.size());
              ++phrase_end) {
           int true_quantity = accumulate(
               current.used_words.begin() + phrase_begin,
