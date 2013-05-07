@@ -11,7 +11,8 @@ using std::getline;
 using std::ifstream;
 using std::stringstream;
 
-Converter::Converter(const string& dict_file) {
+Converter::Converter(const string& dict_file, PhraseTable* phrase_table)
+  : phrase_table_(phrase_table) {
   cout << "Initializing converter with " << dict_file << endl;
   dict_path_ = dict_file;
   ifstream input_vcb(dict_file.c_str());
@@ -37,6 +38,7 @@ Phrase Converter::ToIndex(const string& sentence) {
            << " The word was appended to the dictionary." << endl;
       dict_[word] = words_.size() + 1;
       words_.push_back(word);
+      // TODO: add phrase table insertion
     }
     try {
       indices.push_back(dict_.at(word));

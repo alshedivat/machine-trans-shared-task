@@ -17,7 +17,7 @@ class Converter {
   typedef std::vector<string> WordsList;
 
  public:
-  Converter(const string& dict_file);
+  Converter(const string& dict_file, PhraseTable* phrase_table = NULL);
 
   Phrase ToIndex(const string& sentence);
 
@@ -26,6 +26,7 @@ class Converter {
   size_t DictSize() const;
 
  private:
+  PhraseTable* phrase_table_;
   string dict_path_;
   Dict dict_;
   WordsList words_;
