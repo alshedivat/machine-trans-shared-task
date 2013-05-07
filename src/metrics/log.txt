@@ -1,0 +1,52 @@
+MT evaluation scorer began on 2013 May 7 at 07:24:57
+command line:  ./mteval.pl -s ../../data/corpus/input.xml -r ../../data/corpus/input_google_reference.xml -t ../../data/corpus/output.xml
+  Evaluation of French-to-English translation using:
+    src set "europarl_set" (1 docs, 2000 segs)
+    ref set "europarl_set" (1 refs)
+    tst set "europarl_set" (1 systems)
+
+NIST score = 7.7836  BLEU score = 0.3286 for system "europarl_system"
+
+# ------------------------------------------------------------------------
+
+Individual N-gram scoring
+        1-gram   2-gram   3-gram   4-gram   5-gram   6-gram   7-gram   8-gram   9-gram
+        ------   ------   ------   ------   ------   ------   ------   ------   ------
+ NIST:  5.4033   1.7594   0.4893   0.1037   0.0279   0.0082   0.0030   0.0016   0.0007  "europarl_system"
+
+ BLEU:  0.6481   0.3906   0.2595   0.1775   0.1241   0.0872   0.0624   0.0455   0.0332  "europarl_system"
+
+# ------------------------------------------------------------------------
+Cumulative N-gram scoring
+        1-gram   2-gram   3-gram   4-gram   5-gram   6-gram   7-gram   8-gram   9-gram
+        ------   ------   ------   ------   ------   ------   ------   ------   ------
+ NIST:  5.4033   7.1627   7.6520   7.7557   7.7836   7.7919   7.7948   7.7964   7.7971  "europarl_system"
+
+ BLEU:  0.6481   0.5031   0.4035   0.3286   0.2705   0.2240   0.1866   0.1564   0.1317  "europarl_system"
+MT evaluation scorer ended on 2013 May 7 at 07:25:17
+MT evaluation scorer began on 2013 May 7 at 07:25:17
+command line:  ./mteval.pl -s ../../data/corpus/input.xml -r ../../data/corpus/input_yandex_reference.xml -t ../../data/corpus/output.xml
+  Evaluation of French-to-English translation using:
+    src set "europarl_set" (1 docs, 2000 segs)
+    ref set "europarl_set" (1 refs)
+    tst set "europarl_set" (1 systems)
+
+NIST score = 8.6712  BLEU score = 0.3802 for system "europarl_system"
+
+# ------------------------------------------------------------------------
+
+Individual N-gram scoring
+        1-gram   2-gram   3-gram   4-gram   5-gram   6-gram   7-gram   8-gram   9-gram
+        ------   ------   ------   ------   ------   ------   ------   ------   ------
+ NIST:  5.8102   2.0315   0.6381   0.1495   0.0419   0.0123   0.0044   0.0023   0.0009  "europarl_system"
+
+ BLEU:  0.7099   0.4483   0.3063   0.2144   0.1522   0.1085   0.0784   0.0573   0.0425  "europarl_system"
+
+# ------------------------------------------------------------------------
+Cumulative N-gram scoring
+        1-gram   2-gram   3-gram   4-gram   5-gram   6-gram   7-gram   8-gram   9-gram
+        ------   ------   ------   ------   ------   ------   ------   ------   ------
+ NIST:  5.8102   7.8417   8.4799   8.6294   8.6712   8.6835   8.6879   8.6903   8.6912  "europarl_system"
+
+ BLEU:  0.7099   0.5641   0.4602   0.3802   0.3166   0.2649   0.2226   0.1879   0.1593  "europarl_system"
+MT evaluation scorer ended on 2013 May 7 at 07:25:38

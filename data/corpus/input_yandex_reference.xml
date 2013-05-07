@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mteval SYSTEM "ftp://jaguar.ncsl.nist.gov/mt/resources/mteval-xml-v1.3.dtd">
 <mteval>
-<tstset setid="europarl_set" srclang="French" trglang="English" sysid="europarl_system">
+<refset setid="europarl_set" srclang="French" trglang="English" refid="yandex_ref">
 <doc docid="test" genre="nw">
 <p><seg id="1"> this does the fact that aggravate the anti-democratic character of the european union , and i hope that mr. moscovici was well understood that mr prodi has erected today a real bulwark against these actions . by the way , i really hope that this trend will be interrupted and reversed the advice of nice and biarritz .
 </seg></p>
@@ -4004,5 +4004,5 @@
 <p><seg id="2000"> i fully endorses the contribution of our fellow liberal jan mulder .
 </seg></p>
 </doc>
-</tstset>
+</refset>
 </mteval>
