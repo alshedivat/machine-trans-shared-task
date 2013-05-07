@@ -77,7 +77,7 @@ Phrase Decoder::decode(const Phrase & original_sentence,
 }
 
 vector<Translation> Decoder::getTranslations(const Phrase & phrase) const {
-  if (phrase_table_->count(phrase) != 0) {
+  if (phraseInPhraseTable(phrase)) {
     return phrase_table_->at(phrase);
   } else if (phrase.size() == 1) {
     return vector<Translation>(1, Translation(phrase, 1));
