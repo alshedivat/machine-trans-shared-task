@@ -59,7 +59,7 @@ Phrase Decoder::decode(const Phrase & original_sentence,
                  ++phrase_index) {
               Hypothesis new_hypothesis =
                   CreateNewHypothesis(phrase_begin, phrase_end, phrase_index,
-                                      phrase, new_used_words, current,
+                                      new_used_words, current,
                                       translations, future_costs);
               size_t new_stack_index = phrase_end - phrase_begin + stack_index;
               hypothesis_stacks[new_stack_index].push_back(new_hypothesis);
@@ -103,7 +103,6 @@ Hypothesis Decoder::CreateNewHypothesis(
     size_t phrase_begin,
     size_t phrase_end,
     size_t phrase_index,
-    const Phrase& phrase,
     const vector<bool>& new_used_words,
     const Hypothesis& current,
     const vector<Translation> & translations,
