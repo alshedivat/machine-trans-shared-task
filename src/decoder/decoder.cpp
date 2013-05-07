@@ -47,8 +47,9 @@ Phrase Decoder::decode(const Phrase & original_sentence,
               0);
           Phrase phrase(original_sentence.begin() + phrase_begin,
                         original_sentence.begin() + phrase_end);
-          if (true_quantity == 0) {
-            vector<Translation> translations = getTranslations(phrase);
+
+          vector<Translation> translations = getTranslations(phrase);
+          if ((true_quantity == 0) and (translations.size() > 0)) {
             vector<bool> new_used_words = current.used_words;
             for (size_t index = phrase_begin; index < phrase_end; ++index) {
               new_used_words[index] = true;
