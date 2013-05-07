@@ -47,7 +47,7 @@ typedef unordered_map< Phrase, vector<Translation> > PhraseTable;
 class PhraseTableLoader {
  public:
   PhraseTable load_phrase_table(const string & path,
-                                size_t best_trans_num = 2) const;
+                                size_t best_trans_num) const;
 
  private:
   Phrase ExtractPhrase(FILE* file, int& read_symbol) const;

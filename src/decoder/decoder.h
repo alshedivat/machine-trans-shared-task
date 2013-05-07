@@ -46,7 +46,7 @@ class Decoder {
   Decoder(std::shared_ptr<LanguageModel> language_model,
           std::shared_ptr<AlignmentModel> alignment_model,
           std::shared_ptr<PhraseTable> phrase_table,
-          int difference = 100, int quantity = 2)
+          int difference, int quantity)
     : difference_(difference)
     , quantity_(quantity)
     , language_model_(language_model)
@@ -54,8 +54,8 @@ class Decoder {
     , phrase_table_(phrase_table) {}
 
   Phrase decode(const Phrase & original_sentence,
-                size_t max_phrase_length = 5,
-                size_t max_swap_distance = 5) const;
+                size_t max_phrase_length,
+                size_t max_swap_distance) const;
 
  private:
   vector<Translation> getTranslations(const Phrase & phrase) const;

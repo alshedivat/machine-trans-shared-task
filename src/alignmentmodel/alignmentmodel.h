@@ -5,7 +5,7 @@
 
 class AlignmentModel {
  public:
-  AlignmentModel(double alpha=0.5) : alpha_(alpha) {
+  explicit AlignmentModel(double alpha) : alpha_(alpha) {
   }
 
   double get_probability(int distance) const {
