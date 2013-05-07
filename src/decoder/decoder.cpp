@@ -47,18 +47,19 @@ Phrase Decoder::decode(const Phrase & original_sentence,
               0);
           Phrase phrase(original_sentence.begin() + phrase_begin,
                         original_sentence.begin() + phrase_end);
-          if ((true_quantity == 0) && phraseInPhraseTable(phrase)) {
+          if (true_quantity == 0) {
+            vector<Translation> translations = getTranslations(phrase);
             vector<bool> new_used_words = current.used_words;
             for (size_t index = phrase_begin; index < phrase_end; ++index) {
               new_used_words[index] = true;
             }
             for (size_t phrase_index = 0;
-                 phrase_index < phrase_table_->at(phrase).size();
+                 phrase_index < translations.size();
                  ++phrase_index) {
               Hypothesis new_hypothesis =
                   CreateNewHypothesis(phrase_begin, phrase_end, phrase_index,
                                       phrase, new_used_words, current,
-                                      future_costs);
+                                      translations, future_costs);
               size_t new_stack_index = phrase_end - phrase_begin + stack_index;
               hypothesis_stacks[new_stack_index].push_back(new_hypothesis);
             }
@@ -72,6 +73,16 @@ Phrase Decoder::decode(const Phrase & original_sentence,
     --index;
   }
   return hypothesis_stacks[index][0].sentence;
+}
+
+vector<Translation> Decoder::getTranslations(const Phrase & phrase) const {
+  if (phrase_table_->count(phrase) != 0) {
+    return phrase_table_->at(phrase);
+  } else if (phrase.size() == 1) {
+    return vector<Translation>(1, Translation(phrase, 1));
+  } else {
+    return vector<Translation>();
+  }
 }
 
 void Decoder::EraseBadHypotheses(vector<Hypothesis> * hypothesis_vector) const {
@@ -94,11 +105,12 @@ Hypothesis Decoder::CreateNewHypothesis(
     const Phrase& phrase,
     const vector<bool>& new_used_words,
     const Hypothesis& current,
+    const vector<Translation> & translations,
     const vector<vector<double> >& future_costs) const {
   Hypothesis new_hypothesis = current;
   new_hypothesis.last_end = phrase_end;
   new_hypothesis.used_words = new_used_words;
-  Phrase translated_phrase = phrase_table_->at(phrase)[phrase_index].dest;
+  Phrase translated_phrase = translations[phrase_index].dest;
   new_hypothesis.sentence.insert(new_hypothesis.sentence.end(),
                                  translated_phrase.begin(),
                                  translated_phrase.end());
@@ -107,7 +119,7 @@ Hypothesis Decoder::CreateNewHypothesis(
   new_hypothesis.cost = current.cost +
       alignment_model_->get_probability(static_cast<int>(phrase_begin) -
                                         static_cast<int>(current.last_end)) +
-      log(phrase_table_->at(phrase)[phrase_index].prob);
+      log(translations[phrase_index].prob);
   new_hypothesis.future_cost = 0;
   size_t first = 0;
   size_t last = 0;
