@@ -1,4 +1,5 @@
 #include "converter.h"
+#include <boost/thread.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <iostream>
@@ -33,26 +34,11 @@ Phrase Converter::ToIndex(const string& sentence) {
   stringstream sstr(sentence);
   string word;
   while(sstr >> word) {
-    if (dict_.count(word) == 0) {
-      cerr << "WARNING: There is no word " << word << " in the dictionary!"
-           << " The word was appended to the dictionary." << endl;
-      try {
-        dict_[word] = words_.size() + 1;
-        words_.push_back(word);
-        if (phrase_table_ != NULL) {
-          Phrase phrase;
-          phrase.push_back(dict_.at(word));
-          (*phrase_table_)[phrase] = vector<Translation>(1, Translation(phrase, 1.0));
-        }
-      } catch (const exception& error) {
-        cerr << "Fatal error occured with adding new word: " << error.what() << " with word: " << word << endl;
-      }
+    if (dict_.find(word) == dict_.end()) {
+      cout << "WARNING: '" << word << "' appended to the dictionary" << endl;
+      AddNewWordToDict(word);
     }
-    try {
-      indices.push_back(dict_.at(word));
-    } catch (const exception& error) {
-      cerr << "Fatal error occurred: " << error.what() << " with word: " << word << endl;
-    }
+    indices.push_back(dict_.at(word));
   }
   return indices;
 }
@@ -67,5 +53,13 @@ string Converter::ToSentence(const Phrase& indices) const {
 
 size_t Converter::DictSize() const {
   return words_.size();
+}
+
+void Converter::AddNewWordToDict(const string& word) {
+  boost::mutex::scoped_lock lock(mutex_);
+  if (dict_.find(word) == dict_.end()) {
+    dict_[word] = words_.size() + 1;
+    words_.push_back(word);
+  }
 }
 
