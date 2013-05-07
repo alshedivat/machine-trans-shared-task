@@ -51,3 +51,4 @@ class ProgramOptionsParser {
   std::string output_file_path_;
   std::string phrase_table_path_;
 };
+

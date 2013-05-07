@@ -19,13 +19,14 @@ class Converter {
  public:
   Converter(const string& dict_file);
 
-  Phrase ToIndex(const string& sentence) const;
+  Phrase ToIndex(const string& sentence);
 
   string ToSentence(const Phrase& indices) const;
 
   size_t DictSize() const;
 
  private:
+  string dict_path_;
   Dict dict_;
   WordsList words_;
 
