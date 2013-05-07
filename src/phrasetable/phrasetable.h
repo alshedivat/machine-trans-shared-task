@@ -48,7 +48,7 @@ class PhraseTableLoader {
  public:
   PhraseTable load_phrase_table(const string & path,
                                 size_t best_trans_num = 2) const;
- 
+
  private:
   Phrase ExtractPhrase(FILE* file, int& read_symbol) const;
   void SkipDelimiter(FILE* file, int& read_symbol) const;
