@@ -20,10 +20,8 @@ void ProgramOptionsParser::Parse(int argc, char** argv) {
         "Name of configuration file")
       ("english_sentences_path,s", value<string>(&english_sentences_path_),
         "Name of file containing english corpus")
-      ("english_vocabulary_path,e", value<string>(&english_vocabulary_path_),
-        "Name of file containing english vocabulary")
-      ("french_vocabulary_path,f", value<string>(&french_vocabulary_path_),
-        "Name of file containing french vocabulary")
+      ("vocabulary_path,f", value<string>(&vocabulary_path_),
+        "Name of file containing vocabulary")
       ("input_file_path,i", value<string>(&input_file_path_),
         "Name of input file")
       ("language_model_path,l", value<string>(&language_model_path_),

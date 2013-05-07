@@ -24,20 +24,21 @@ using std::shared_ptr;
 using std::string;
 
 void MachineTranslator::Init(const string& english_sentences_path,
-                             const string& english_vocabulary_path,
-                             const string& french_vocabulary_path,
+                             const string& vocabulary_path,
                              const string& language_model_path,
                              const string& phrase_table_path) {
   cout << "Initializing machine translator" << endl;
-  english_converter_.reset(new Converter(english_vocabulary_path));
-  french_converter_.reset(new Converter(french_vocabulary_path));
+
+  shared_ptr<PhraseTable> phrase_table(new PhraseTable());
+  PhraseTableLoader phrase_table_loader;
+  *phrase_table = phrase_table_loader.load_phrase_table(phrase_table_path, 5);
+
+  converter_.reset(new Converter(vocabulary_path, phrase_table.get()));
   shared_ptr<AlignmentModel> alignment_model(new AlignmentModel(0.5));
   shared_ptr<LanguageModel> language_model(new LanguageModel());
   *language_model = LoadLanguageModel(language_model_path,
                                       english_sentences_path);
-  shared_ptr<PhraseTable> phrase_table(new PhraseTable());
-  PhraseTableLoader phrase_table_loader;
-  *phrase_table = phrase_table_loader.load_phrase_table(phrase_table_path, 5);
+
   decoder_.reset(new Decoder(language_model, alignment_model, phrase_table, 100, 300));
   cout << "Machine translator initialized" << endl;
 }
@@ -76,12 +77,13 @@ LanguageModel MachineTranslator::LoadLanguageModel(
   vector<Phrase> sentences;
   cout << "Reading english corpus" << endl;
   while (getline(file, sentence)) {
-    Phrase sent = english_converter_->ToIndex(sentence);
+    Phrase sent = converter_->ToIndex(sentence);
     sentences.push_back(sent);
   }
   file.close();
+  // 91912 - quantity of ENGLISH words;
   LanguageModel language_model =
-      learn_ngram_language_model(sentences, english_converter_->DictSize(), 3);
+      learn_ngram_language_model(sentences, 91912, 3);
   language_model.save(language_model_path);
   return language_model;
 }

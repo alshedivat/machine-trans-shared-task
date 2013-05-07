@@ -9,8 +9,7 @@
 class MachineTranslator {
  public:
   void Init(const std::string& english_sentences_path,
-            const std::string& english_vocabulary_path,
-            const std::string& french_vocabulary_path,
+            const std::string& vocabulary_path,
             const std::string& language_model_path,
             const std::string& phrase_table_path);
 
@@ -23,14 +22,13 @@ class MachineTranslator {
 
   void TranslateSentence(const std::string& sentence,
                          size_t sentence_number) {
-    Phrase french_phrase = french_converter_->ToIndex(sentence);
+    Phrase french_phrase = converter_->ToIndex(sentence);
     Phrase english_phrase = decoder_->decode(french_phrase, 6, 6);
-    translations_[sentence_number] = english_converter_->ToSentence(
+    translations_[sentence_number] = converter_->ToSentence(
         english_phrase);
   }
 
-  std::shared_ptr<Converter> english_converter_;
-  std::shared_ptr<Converter> french_converter_;
+  std::shared_ptr<Converter> converter_;
   std::shared_ptr<Decoder> decoder_;
   std::vector<std::string> translations_;
 };

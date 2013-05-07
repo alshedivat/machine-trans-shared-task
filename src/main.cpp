@@ -14,8 +14,7 @@ int main(int argc, char** argv) {
         MachineTranslator machine_translator;
         machine_translator.Init(
             program_options_parser.english_sentences_path(),
-            program_options_parser.english_vocabulary_path(),
-            program_options_parser.french_vocabulary_path(),
+            program_options_parser.vocabulary_path(),
             program_options_parser.language_model_path(),
             program_options_parser.phrase_table_path());
         machine_translator.Translate(

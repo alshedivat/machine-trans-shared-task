@@ -38,7 +38,11 @@ Phrase Converter::ToIndex(const string& sentence) {
            << " The word was appended to the dictionary." << endl;
       dict_[word] = words_.size() + 1;
       words_.push_back(word);
-      // TODO: add phrase table insertion
+      if (phrase_table_ != NULL) {
+        Phrase phrase;
+        phrase.push_back(words_.size());
+	phrase_table_->at(phrase) = vector<Translation>(1, Translation(phrase, 1.0));
+      }
     }
     try {
       indices.push_back(dict_.at(word));
