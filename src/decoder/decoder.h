@@ -46,7 +46,7 @@ class Decoder {
   Decoder(std::shared_ptr<LanguageModel> language_model,
           std::shared_ptr<AlignmentModel> alignment_model,
           std::shared_ptr<PhraseTable> phrase_table,
-          int difference, int quantity)
+          double difference, int quantity)
     : difference_(difference)
     , quantity_(quantity)
     , language_model_(language_model)
@@ -68,7 +68,7 @@ class Decoder {
                                  const Hypothesis& current,
                                  const vector<Translation> & translations,
                                  const vector<vector<double> >& future_costs) const;
-  int difference_;
+  double difference_;
   int quantity_;
   std::shared_ptr<LanguageModel> language_model_;
   std::shared_ptr<AlignmentModel> alignment_model_;

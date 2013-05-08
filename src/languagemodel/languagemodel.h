@@ -27,7 +27,7 @@ public:
 
 	/// returns probability of whole sentence
 	double get_probability(const Phrase& sentence) const;
-	
+
 	size_t get_length() const {
 		return N_;
 	}
@@ -52,7 +52,7 @@ private:
 typedef NgramLanguageModel LanguageModel;
 
 /// sentences - corpus, wordsCount - dictionary size, N - parameter in N-gram model, alpha - smoothing
-NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentences, const int wordsCount, const size_t N = 3, const double alpha = 0.00017);
+NgramLanguageModel learn_ngram_language_model(const std::vector< Phrase >& sentences, const size_t wordsCount, const size_t N = 3, const double alpha = 0.00017);
 
 NgramLanguageModel load_ngram_language_model(const std::string& path);
 

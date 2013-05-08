@@ -100,7 +100,7 @@ void NgramLanguageModel::save(const std::string& path) const {
 }
 
 bool NgramLanguageModel::operator ==(const NgramLanguageModel& other) const {
-	return seenContext_ == other.seenContext_ 
+	return seenContext_ == other.seenContext_
 		&& seenPhrases_ == other.seenPhrases_
 		&& N_ == other.N_
 		&& alpha_ == other.alpha_
@@ -124,7 +124,7 @@ NgramLanguageModel load_ngram_language_model(const std::string& path) {
 
 NgramLanguageModel learn_ngram_language_model(
     const std::vector< Phrase >& sentences,
-    const int wordsCount,
+    const size_t wordsCount,
     const size_t N,
     const double alpha) {
   cout << "Learning language model" << endl;

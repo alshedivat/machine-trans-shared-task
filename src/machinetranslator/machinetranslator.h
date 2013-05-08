@@ -17,7 +17,7 @@ class MachineTranslator {
             const std::string& phrase_table_path,
             size_t best_translations_number,
             double reordering_alpha,
-            int decoder_difference,
+            double decoder_difference,
             int decoder_quantity,
             size_t n_gram_parameter);
 

@@ -29,7 +29,7 @@ void MachineTranslator::Init(const string& english_sentences_path,
                              const string& phrase_table_path,
                              size_t best_translations_number,
                              double reordering_alpha,
-                             int decoder_difference,
+                             double decoder_difference,
                              int decoder_quantity,
                              size_t n_gram_parameter) {
   cout << "Initializing machine translator" << endl;
@@ -39,7 +39,7 @@ void MachineTranslator::Init(const string& english_sentences_path,
   *phrase_table = phrase_table_loader.load_phrase_table(
       phrase_table_path,
       best_translations_number);
-  converter_.reset(new Converter(vocabulary_path, phrase_table.get()));
+  converter_.reset(new Converter(vocabulary_path));
   shared_ptr<AlignmentModel> alignment_model(
       new AlignmentModel(reordering_alpha));
   shared_ptr<LanguageModel> language_model(new LanguageModel());

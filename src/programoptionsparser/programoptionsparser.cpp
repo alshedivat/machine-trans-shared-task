@@ -34,7 +34,7 @@ void ProgramOptionsParser::Parse(int argc, char** argv) {
         "Number of best translations to remain")
       ("reordering_alpha,r", value<double>(&reordering_alpha_),
         "Reordering parameter")
-      ("decoder_difference,d", value<int>(&decoder_difference_),
+      ("decoder_difference,d", value<double>(&decoder_difference_),
         "Decoder difference")
       ("decoder_quantity,q", value<int>(&decoder_quantity_),
         "Decoder quantity")

@@ -15,18 +15,17 @@ class Converter {
   typedef std::vector<string> WordsList;
 
  public:
-  Converter(const std::string& dict_file, PhraseTable* phrase_table = NULL);
+  Converter(const std::string& dict_file);
 
   Phrase ToIndex(const std::string& sentence);
 
   string ToSentence(const Phrase& indices) const;
 
-  size_t DictSize() const;
+  // size_t DictSize() const;
 
  private:
   void AddNewWordToDict(const std::string& word);
   boost::mutex mutex_;
-  PhraseTable* phrase_table_;
   std::string dict_path_;
   Dict dict_;
   WordsList words_;

@@ -52,7 +52,7 @@ class ProgramOptionsParser {
     return reordering_alpha_;
   }
 
-  int decoder_difference() {
+  double decoder_difference() {
     return decoder_difference_;
   }
 
@@ -81,7 +81,7 @@ class ProgramOptionsParser {
   std::string phrase_table_path_;
   size_t best_translations_number_;
   double reordering_alpha_;
-  int decoder_difference_;
+  double decoder_difference_;
   int decoder_quantity_;
   size_t n_gram_parameter_;
   size_t max_phrase_length_;

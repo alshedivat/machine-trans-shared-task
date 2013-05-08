@@ -12,8 +12,7 @@ using std::getline;
 using std::ifstream;
 using std::stringstream;
 
-Converter::Converter(const string& dict_file, PhraseTable* phrase_table)
-  : phrase_table_(phrase_table) {
+Converter::Converter(const string& dict_file) {
   cout << "Initializing converter with " << dict_file << endl;
   dict_path_ = dict_file;
   ifstream input_vcb(dict_file.c_str());
@@ -51,9 +50,9 @@ string Converter::ToSentence(const Phrase& indices) const {
   return sstr.str();
 }
 
-size_t Converter::DictSize() const {
-  return words_.size();
-}
+// size_t Converter::DictSize() const {
+//   return words_.size();
+// }
 
 void Converter::AddNewWordToDict(const string& word) {
   boost::mutex::scoped_lock lock(mutex_);
