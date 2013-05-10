@@ -6,9 +6,10 @@ Machine translation shared task competition solution.
 ## TODO
 1. ~~Implement logging~~
 2. ~~Do code refactoring: add comments to make code understandable for everybody, split huge functions.~~
-3. Write a few simple tests :)
+3. ~~Write a few simple tests :)~~
 4. ~~Implement metrics (NIST BLEU)~~
-5. Make it work!
+5. ~~Make it work!~~
+6. Submit final translation.
 
 ## Rules (Rus)
 1. Shared Task представляет собой соревнование систем машинного перевода с французского языка на английский.
